@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/khang/.vim/plugged/leetcode.vim/autoload'
+let g:netrw_dirhist_3='/home/khang/.vim/plugged/leetcode.vim'
+let g:netrw_dirhist_2='/home/khang/.vim/plugged/leetcode.vim/autoload'
+let g:netrw_dirhist_1='/home/khang/.vim/plugged/leetcode.vim'
+let g:netrw_dirhist_0='/home/khang/.vim/plugged/leetcode.vim/plugin'
+let g:netrw_dirhist_9='/home/khang/.vim/plugged/leetcode.vim'
+let g:netrw_dirhist_8='/home/khang/.vim/plugged/leetcode.vim/plugin'
+let g:netrw_dirhist_7='/home/khang/.vim/plugged/leetcode.vim'
+let g:netrw_dirhist_6='/home/khang/Downloads/terminal-leetcode/screenshots'
+let g:netrw_dirhist_5='/home/khang/Workspace/projects/py-projects/cs229/problem-sets/PS1/src'
