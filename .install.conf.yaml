@@ -6,17 +6,19 @@
 - clean: ['~', '~/.config']
 
 - link:
-    ~/.dotfiles: ''
-    ~/.gitconfig:
-    ~/.gitignore_global:
     ~/.agignore:
     ~/.aria2/aria2.conf:
     ~/.axelrc:
     ~/.bash:
     ~/.bash_profile:
-    ~/.bashrc:~/.editrc:
+    ~/.bashrc:
+    ~/.dotfiles: ''
+    ~/.editrc:
     ~/.emacs.d:
-    ~/.emacs:~/.gnupg/dirmngr.conf: gnupg/dirmngr.conf
+    ~/.emacs:
+    ~/.gitconfig:
+    ~/.gitignore_global:
+    ~/.gnupg/dirmngr.conf: gnupg/dirmngr.conf
     ~/.gnupg/gpg.conf: gnupg/gpg.conf
     ~/.haskeline:
     ~/.hgrc:
@@ -34,6 +36,11 @@
     ~/.vimrc:
     ~/.zsh:
     ~/.zshrc:
+
+- create:
+  - ~/.rtorrent/session
+  - ~/.rtorrent/watch
+  - ~/.rtorrent/downloads
 
 - shell:
   - git submodule sync --recursive
