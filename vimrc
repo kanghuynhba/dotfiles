@@ -45,6 +45,30 @@ set nocompatible " not vi compatible
 syntax on " turn on syntax highlighting
 set showmatch " show matching braces when text indicator is over them
 
+
+" Colorscheme
+let g:molokai_original = 0
+
+if has('gui_running')
+    colorscheme base16-gruvbox-dark-hard
+elseif exists("+termguicolors")
+    " set termguicolors
+    highlight CursorLine cterm=NONE gui=NONE ctermbg=236 guibg=#2a2a2a
+    " The commands below are needed for tmux + termguicolors
+    " This is only necessary if you use "set termguicolors".
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+    " fixes glitch? in colors when using vim with tmux
+    set background=dark
+    set t_Co=256
+
+    colorscheme molokai
+    set nocursorline " looks bad in this mode
+    " colorscheme sonokai
+    " let g:sonokai_style = 'shusia'
+endif
+
 " highlight current line, but only in active window
 augroup CursorLineOnlyInActiveWindow
     autocmd!
@@ -52,28 +76,10 @@ augroup CursorLineOnlyInActiveWindow
     autocmd WinLeave * setlocal nocursorline
 augroup END
 
+
 " vim can autodetect this based on $TERM (e.g. 'xterm-256color')
 " but it can be set to force 256 colors
 " set t_Co=256
-if has('gui_running')
-    colorscheme solarized
-    let g:lightline = {'colorscheme': 'solarized'}
-elseif &t_Co < 256
-    colorscheme default
-    set nocursorline " looks bad in this mode
-else
-    set background=dark
-    let g:solarized_termcolors=256 " instead of 16 color with mapping in terminal
-    colorscheme solarized
-    " customized colors
-    highlight SignColumn ctermbg=234
-    highlight StatusLine cterm=bold ctermfg=245 ctermbg=235
-    highlight StatusLineNC cterm=bold ctermfg=245 ctermbg=235
-    let g:lightline = {'colorscheme': 'dark'}
-    highlight SpellBad cterm=underline
-    highlight CursorLineNr cterm=NONE
-    " patches
-endif
 
 filetype plugin indent on " enable file type detection
 set autoindent
@@ -149,10 +155,15 @@ nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
 let g:leetcode_browser='firefox'
 
-" copy easier
-vnoremap <leader>y "+y
-nnoremap <leader>y "+yy
-nnoremap <leader>p "+p
+"  y d p P   --  Quick copy paste into system clipboard
+nmap <Leader>y "+y
+nmap <Leader>d "+d
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
