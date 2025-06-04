@@ -36,7 +36,6 @@ endif
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
-"set background=dark
 "
 set nocompatible " not vi compatible
 
@@ -65,7 +64,7 @@ elseif &t_Co < 256
 else
     set background=dark
     let g:solarized_termcolors=256 " instead of 16 color with mapping in terminal
-    " colorscheme solarized
+    colorscheme solarized
     " customized colors
     highlight SignColumn ctermbg=234
     highlight StatusLine cterm=bold ctermfg=245 ctermbg=235
@@ -120,6 +119,8 @@ let g:markdown_folding = 1
 " Misc configurations
 "--------------------
 
+let mapleader = " "   " Use spacebar as leader key (very common)
+
 " unbind keys
 map <C-a> <Nop>
 map <C-x> <Nop>
@@ -142,12 +143,16 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_show_hidden = 1
 
 " leetcode.vim
-let mapleader = " "   " Use spacebar as leader key (very common)
 nnoremap <leader>ll :LeetCodeList<cr>
 nnoremap <leader>lt :LeetCodeTest<cr>
 nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
 let g:leetcode_browser='firefox'
+
+" copy easier
+vnoremap <leader>y "+y
+nnoremap <leader>y "+yy
+nnoremap <leader>p "+p
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
