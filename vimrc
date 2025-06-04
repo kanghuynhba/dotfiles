@@ -79,7 +79,7 @@ augroup END
 
 " vim can autodetect this based on $TERM (e.g. 'xterm-256color')
 " but it can be set to force 256 colors
-" set t_Co=256
+set t_Co=256
 
 filetype plugin indent on " enable file type detection
 set autoindent
@@ -88,6 +88,7 @@ let &t_SI = "\e[6 q"   " Insert mode: vertical bar
 let &t_EI = "\e[2 q"   " Normal mode: block
 let &t_SR = "\e[4 q"   " Replace mode: underline
 
+set nofoldenable " disable folding by default
 " use 4 spaces instead of tabs during formatting 
 set tabstop=4
 set shiftwidth=4
