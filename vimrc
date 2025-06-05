@@ -1,4 +1,3 @@
-" $VIMRUNTIME refers to the versioned system directory where Vim stores its
 " system runtime files -- /usr/share/vim/vim<version>.
 "
 " Vim will load $VIMRUNTIME/defaults.vim if the user does not have a vimrc.
@@ -23,11 +22,6 @@
 runtime! debian.vim
 
 " Uncomment the next line to make Vim more Vi-compatible
-" NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes
-" numerous options, so any other options should be set AFTER changing
-" 'compatible'.
-"set compatible
-
 " Vim5 and later versions support syntax highlighting. Uncommenting the next
 " line enables syntax highlighting by default.
 if has("syntax")
@@ -42,31 +36,27 @@ set nocompatible " not vi compatible
 "------------------
 " Syntax and indent
 "------------------
-syntax on " turn on syntax highlighting
 set showmatch " show matching braces when text indicator is over them
 
-
 " Colorscheme
-let g:molokai_original = 0
-
+" Automatically configure colors based on environment
 if has('gui_running')
-    colorscheme base16-gruvbox-dark-hard
-elseif exists("+termguicolors")
-    " set termguicolors
-    highlight CursorLine cterm=NONE gui=NONE ctermbg=236 guibg=#2a2a2a
-    " The commands below are needed for tmux + termguicolors
-    " This is only necessary if you use "set termguicolors".
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-    " fixes glitch? in colors when using vim with tmux
-    set background=dark
-    set t_Co=256
-
-    colorscheme molokai
+    colorscheme Monokai Charcoal
+    let g:lightline = {'colorscheme': 'wombat'}
+    colorscheme default
     set nocursorline " looks bad in this mode
-    " colorscheme sonokai
-    " let g:sonokai_style = 'shusia'
+else
+    set background=dark
+    colorscheme monokaicharcoal
+    " Optional: tweak highlight groups to look better in terminal
+    let g:cpp_operator_highlight = 1
+    let g:cpp_constant_highlight= 1
+    highlight SignColumn ctermbg=235
+    highlight StatusLine cterm=bold ctermfg=250 ctermbg=237
+    highlight StatusLineNC cterm=NONE ctermfg=240 ctermbg=236
+    highlight SpellBad cterm=underline
+    highlight CursorLineNr cterm=NONE
+    let g:lightline = {'colorscheme': 'wombat'}
 endif
 
 " highlight current line, but only in active window
@@ -75,7 +65,6 @@ augroup CursorLineOnlyInActiveWindow
     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
     autocmd WinLeave * setlocal nocursorline
 augroup END
-
 
 " vim can autodetect this based on $TERM (e.g. 'xterm-256color')
 " but it can be set to force 256 colors
@@ -106,6 +95,7 @@ let g:markdown_fenced_languages = [
     \ 'asm',
     \ 'bash=sh',
     \ 'c',
+    \ 'cpp',
     \ 'coffee',
     \ 'erb=eruby',
     \ 'javascript',
@@ -164,7 +154,6 @@ vmap <Leader>d "+d
 nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
-vmap <Leader>P "+P
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
@@ -239,6 +228,7 @@ set hidden
 " being searched are lowercase. However, the search becomes case-sensitive if
 " it contains any capital letters. This makes searching more convenient.
 set ignorecase
+
 set smartcase
 
 " Enable searching as you type, rather than waiting till you press enter.
