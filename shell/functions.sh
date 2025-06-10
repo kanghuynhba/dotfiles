@@ -24,15 +24,7 @@ cppExe() {
 	done
 }
 
-# Open Google
-google() {
-	local query=$(echo $@ | sed 's/ /+/g') 
-	xdg-open https://www.google.com/search?q=$query 
-}
 
-listCourses() {
-	xdg-open https://space.bilibili.com/400647031/lists/389026?type=series
-}
 
 rmSwp() {
 	find . -name '*.swp' -exec rm {} \;

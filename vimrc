@@ -21,9 +21,6 @@
 
 runtime! debian.vim
 
-" Uncomment the next line to make Vim more Vi-compatible
-" Vim5 and later versions support syntax highlighting. Uncommenting the next
-" line enables syntax highlighting by default.
 if has("syntax")
   syntax on
 endif
@@ -49,6 +46,7 @@ else
     set background=dark
     colorscheme monokaicharcoal
     " Optional: tweak highlight groups to look better in terminal
+    highlight MatchParen ctermfg=Red ctermbg=Black guifg=Red guibg=Black
     let g:cpp_operator_highlight = 1
     let g:cpp_constant_highlight= 1
     highlight SignColumn ctermbg=235
@@ -165,14 +163,11 @@ vmap <Leader>p "+p
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
-"set showcmd		" Show (partial) command in status line.
-"set showmatch		" Show matching brackets.
-"set ignorecase		" Do case insensitive matching
-"set smartcase		" Do smart case matching
-"set incsearch		" Incremental search
-"set autowrite		" Automatically save before commands like :next and :make
-"set hidden		" Hide buffers when they are abandoned
-"set mouse=a		" Enable mouse usage (all modes)
+set showcmd		" Show (partial) command in status line.
+set showmatch		" Show matching brackets.
+set ignorecase		" Do case insensitive matching
+set smartcase		" Do smart case matching
+set autowrite		" Automatically save before commands like :next and :make
 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
