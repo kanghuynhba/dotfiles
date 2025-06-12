@@ -6,7 +6,7 @@ alias ll="ls -la"
 # tldr alias
 alias forex="tldr"
 
-# xdg-open alias
+# open alias
 alias xdg-open="xdg-open >/dev/null 2>&1"
 
 # Go up [n] directories
@@ -56,6 +56,13 @@ alias funcConfig="vim $shellPath/functions.sh"
 # venv alias
 alias icloud="source ~/venv/icloud/bin/activate"
 
+#gdb - debugger for low level file
+alias gdb="pwndbg-lldb"
+
+# writegood
+alias writegood="write-good"
+
+# Copilot terminal alias ( ghce, ghcs )
 eval "$(gh copilot alias -- bash)"
 
 # activate env and cd to that directoy
