@@ -19,12 +19,22 @@ cppExe() {
 	for file in "$@"; do
 		echo "Output of $file"
 		exeFile=$(echo "$file" | sed 's/.cpp/.exe/g')
+        if [ ! -d "./execution" ]; then
+            mkdir execution
+        fi
 		g++ "$file" -o "./execution/"$exeFile""
 		./execution/"$exeFile"
 	done
 }
 
-
+mvunzip() {
+    mv ${1} ${2} 
+    filename=$(basename "${1}")
+    cd ${2}
+    unzip -o ${filename}
+    rm ${filename}
+    rm ${1}
+}
 
 rmSwp() {
 	find . -name '*.swp' -exec rm {} \;

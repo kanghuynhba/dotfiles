@@ -3,11 +3,14 @@ set -o vi
 # ls alias 
 alias ll="ls -la"
 
+# shutdown alias
+alias shutdown="systemctl poweroff"
+
 # tldr alias
 alias forex="tldr"
 
 # open alias
-alias xdg-open="xdg-open >/dev/null 2>&1"
+alias open="xdg-open >/dev/null 2>&1"
 
 # Go up [n] directories
 up()
@@ -45,13 +48,16 @@ projectPath=~/Workspace/projects
 alias tools="cd ~/tools"
 alias tools="cd ~/tools"
 alias pyProject="cd $projectPath/py-projects/"
+alias dotnetProject="cd $projectPath/dotnet-projects/"
 alias cppProject="cd $projectPath/cpp-projects/"
+alias javaProject="cd $projectPath/java-projects/"
 alias vimPlugins="cd ~/.vim/pack/vendor/start"
 
 # vim alias
 shellPath=~/dotfiles/shell
 alias aliasConfig="vim $shellPath/aliases.sh"
 alias funcConfig="vim $shellPath/functions.sh"
+alias coursesConfig="vim $shellPath/courses.sh"
 
 # venv alias
 alias icloud="source ~/venv/icloud/bin/activate"
@@ -68,26 +74,26 @@ eval "$(gh copilot alias -- bash)"
 # activate env and cd to that directoy
 leetcode() {
     source ~/venv/leetcode/bin/activate 
+    open https://leetcode.com/problemset/
     cd $projectPath/leetcode/src 
     ls -t
 }
 
-cs229() {
-    xdg-open ~/Documents/note/Main\ Open\ Course/cs229-2018-autumn/syllabus-autumn2018
-    xdg-open https://www.bilibili.com/video/BV1JE411w7Ub/?spm_id_from=333.1387.collection.video_card.click&vd_source=83a430eab3c17ad059d382af7fc9db2e
-    source ~/venv/cs229/bin/activate
-    pyProject
-    cd cs229/
+# open eclipse
+eclipse() {
+    javaProject
+    cd eclipse
+    ./eclipse
 }
 
 # open google
 google() {
 	local query=$(echo $@ | sed 's/ /+/g') 
-	xdg-open https://www.google.com/search?q=$query 
+	open https://www.google.com/search?q=$query 
 }
 
 listCourses() {
-	xdg-open https://space.bilibili.com/400647031/lists/389026?type=series
+	open https://space.bilibili.com/400647031/lists/389026?type=series
 }
 
 # Update dotfiles
