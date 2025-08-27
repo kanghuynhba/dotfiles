@@ -27,6 +27,27 @@ cppExe() {
 	done
 }
 
+mvnExe() {
+    mvn exec:java -Dexec.mainClass=$@
+}
+
+javaExe() {
+    javac $1
+    if [ $? -eq 0 ]; then 
+        echo "Compilation successful. Searching for main methods..."
+        for file in "$@"; do
+            if grep -q "public static void main" "$file"; then
+                classname=$(echo "$file" | sed 's#^./##; s#/#.#g; s#.java$##')
+                echo "Running $classname..."
+                java -cp . "$classname"
+                
+            fi
+        done
+    else 
+        echo "Compilation failed. Check for errors."
+    fi
+}
+
 mvunzip() {
     mv ${1} ${2} 
     filename=$(basename "${1}")

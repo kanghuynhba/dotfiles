@@ -132,6 +132,18 @@ set splitright
 " Plugin configuration
 "---------------------
 
+" copilter.vim
+let g:copilot_filetypes = {
+    \ '*' : v:false,
+    \ 'markdown': v:false,
+    \ 'help': v:false,
+    \ 'gitcommit': v:false,
+    \ 'gitrebase': v:false,
+    \ 'hgcommit': v:false,
+    \ 'svn': v:false,
+    \ 'cvs': v:false,
+    \ }
+
 " ctrlp
 nnoremap ; :CtrlPBuffer<CR>
 let g:ctrlp_switch_buffer = 0

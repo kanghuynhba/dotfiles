@@ -59,6 +59,9 @@ alias aliasConfig="vim $shellPath/aliases.sh"
 alias funcConfig="vim $shellPath/functions.sh"
 alias coursesConfig="vim $shellPath/courses.sh"
 
+# mysql alias
+alias mysql="mysql --default-character-set=utf8mb4 -u root -p"
+
 # venv alias
 alias icloud="source ~/venv/icloud/bin/activate"
 
@@ -70,6 +73,11 @@ alias writegood="write-good"
 
 # Copilot terminal alias ( ghce, ghcs )
 eval "$(gh copilot alias -- bash)"
+
+# maven init
+mvnInit() {
+    mvn archetype:generate -DgroupId=com.hbk.$1 -DartifactId=$1 -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+}
 
 # activate env and cd to that directoy
 leetcode() {
