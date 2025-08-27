@@ -132,6 +132,18 @@ set splitright
 " Plugin configuration
 "---------------------
 
+" copilter.vim
+let g:copilot_filetypes = {
+    \ '*' : v:false,
+    \ 'markdown': v:false,
+    \ 'help': v:false,
+    \ 'gitcommit': v:false,
+    \ 'gitrebase': v:false,
+    \ 'hgcommit': v:false,
+    \ 'svn': v:false,
+    \ 'cvs': v:false,
+    \ }
+
 " ctrlp
 nnoremap ; :CtrlPBuffer<CR>
 let g:ctrlp_switch_buffer = 0
@@ -142,7 +154,14 @@ nnoremap <leader>ll :LeetCodeList<cr>
 nnoremap <leader>lt :LeetCodeTest<cr>
 nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
-let g:leetcode_browser='firefox'
+let g:leetcode_browser='chrome'
+
+" ale
+let g:ale_virtualtext_cursor = 'current'
+" Disable whitespace warnings
+let g:ale_warn_about_trailing_whitespace = 0
+" Set this in your vimrc file to disabling highlighting
+let g:ale_set_highlights = 0
 
 "  y d p P   --  Quick copy paste into system clipboard
 nmap <Leader>y "+y

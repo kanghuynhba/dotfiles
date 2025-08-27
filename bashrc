@@ -13,6 +13,9 @@ source ~/.shell/bootstrap.sh
 # Aliases
 source ~/.shell/aliases.sh
 
+# Courses
+source ~/.shell/courses.sh
+
 # Custom prompt
 source ~/.bash/prompt.bash
 
