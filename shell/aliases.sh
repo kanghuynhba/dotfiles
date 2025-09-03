@@ -79,10 +79,21 @@ mvnInit() {
     mvn archetype:generate -DgroupId=com.hbk.$1 -DartifactId=$1 -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 }
 
+# tmux init
+tmuxInit() {
+    tmux new -d -s "write"
+    tmux new -d -s "exec" 
+    tmux new -d -s "git" 
+    tmux a -t "write"
+}
+
 # activate env and cd to that directoy
 leetcode() {
     source ~/venv/leetcode/bin/activate 
-    open https://leetcode.com/problemset/
+    if [[ "$1" == "-w" ]]; then
+        open https://leetcode.com/problemset/
+        return
+    fi
     cd $projectPath/leetcode/src 
     ls -t
 }
