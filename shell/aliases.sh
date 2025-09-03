@@ -111,6 +111,11 @@ google() {
 	open https://www.google.com/search?q=$query 
 }
 
+# open github
+github() {
+    open https://github.com/kanghuynhba?tab=repositories
+}
+
 listCourses() {
 	open https://space.bilibili.com/400647031/lists/389026?type=series
 }
