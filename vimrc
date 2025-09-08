@@ -23,6 +23,7 @@ runtime! debian.vim
 
 if has("syntax")
   syntax on
+  highlight link javaIdentifier NONE
 endif
 
 " If using a dark background within the editing area and syntax highlighting
@@ -142,6 +143,7 @@ let g:copilot_filetypes = {
     \ 'hgcommit': v:false,
     \ 'svn': v:false,
     \ 'cvs': v:false,
+    \ 'sh': v:true,
     \ }
 
 " ctrlp
@@ -270,4 +272,3 @@ nnoremap <Up>    :echoe "Use k"<CR>
 nnoremap <Down>  :echoe "Use j"<CR>
 " ...and in insert mode
 "
-

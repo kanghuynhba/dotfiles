@@ -14,7 +14,7 @@ path_prepend() {
 
 cppExe() {
 	echo "Executing programs at $(date)"
-	echo "Running $# cpp files which is: $@"
+	echo Running $# cpp files which is: "$@"
 
 	for file in "$@"; do
 		echo "Output of $file"
@@ -28,7 +28,11 @@ cppExe() {
 }
 
 mvnExe() {
-    mvn exec:java -Dexec.mainClass=$@
+    if [ -z "$1" ]; then
+        mvn exec:java
+    else
+        mvn exec:java -Dexec.mainClass="$1"
+    fi
 }
 
 javaExe() {

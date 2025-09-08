@@ -79,6 +79,12 @@ mvnInit() {
     mvn archetype:generate -DgroupId=com.hbk.$1 -DartifactId=$1 -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 }
 
+# open an azure's server
+server() {
+    echo "Connecting to $3 ..."
+    az vm $1 --resource-group "$2" --name "$3"    
+}
+
 # tmux init
 tmuxInit() {
     tmux new -d -s "write"
