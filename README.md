@@ -1,6 +1,12 @@
 # 🛠️ Khang Huynh Ba’s Dotfiles
 
-A curated collection of configuration files to set up a consistent and efficient development environment across Unix-like systems.
+A curated collection of configuration files to set up a consistent and efficient development environment across Unix-like systems.-
+
+---
+
+## 📦 Requirements
+- Git
+- Python 3.7+
 
 ---
 
