@@ -1,3 +1,30 @@
 [submodule ".dotbot"]
 	path = .dotbot
 	url = https://github.com/anishathalye/dotbot.git
+[submodule "vim/pack/vendor/start/ale"]
+	path = vim/pack/vendor/start/ale
+	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/vendor/start/auto-pairs"]
+	path = vim/pack/vendor/start/auto-pairs
+	url =  https://github.com/jiangmiao/auto-pairs.git
+[submodule "vim/pack/vendor/start/ctrlp.vim"]
+	path = vim/pack/vendor/start/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule "vim/pack/vendor/start/leetcode.vim"]
+	path = vim/pack/vendor/start/leetcode.vim
+	url = https://github.com/ianding1/leetcode.vim.git
+[submodule "vim/pack/vendor/start/vim-c-cpp-modern"]
+	path = vim/pack/vendor/start/vim-c-cpp-modern
+	url = https://github.com/bfrg/vim-c-cpp-modern.git
+[submodule "vim/pack/vendor/start/vim-commentary"]
+	path = vim/pack/vendor/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git
+[submodule "vim/pack/vendor/start/vim-polyglot"]
+	path = vim/pack/vendor/start/vim-polyglot
+	url =  https://github.com/sheerun/vim-polyglot.git
+[submodule "vim/pack/github/start/copilot.vim"]
+	path = vim/pack/github/start/copilot.vim
+	url = https://github.com/github/copilot.vim.git
+[submodule "shell/plugins/dircolors-solarized"]
+	path = shell/plugins/dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized.git  
