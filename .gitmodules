@@ -10,6 +10,9 @@
 [submodule "vim/pack/vendor/start/ctrlp.vim"]
 	path = vim/pack/vendor/start/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
+[submodule "vim/pack/vendor/start/java-syntax.vim"]
+	path = vim/pack/vendor/start/java-syntax.vim
+	url = https://github.com/uiiaoo/java-syntax.vim.git
 [submodule "vim/pack/vendor/start/leetcode.vim"]
 	path = vim/pack/vendor/start/leetcode.vim
 	url = https://github.com/ianding1/leetcode.vim.git
