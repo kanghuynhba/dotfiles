@@ -23,7 +23,6 @@ runtime! debian.vim
 
 if has("syntax")
   syntax on
-  highlight link javaIdentifier NONE
 endif
 
 " If using a dark background within the editing area and syntax highlighting
@@ -47,10 +46,10 @@ else
     set background=dark
     colorscheme monokaicharcoal
     " Optional: tweak highlight groups to look better in terminal
-    highlight MatchParen ctermfg=Red ctermbg=Black guifg=Red guibg=Black
     let g:cpp_operator_highlight = 1
     let g:cpp_constant_highlight= 1
     highlight SignColumn ctermbg=235
+    highlight MatchParen ctermfg=Red ctermbg=Black guifg=Red guibg=Black
     highlight StatusLine cterm=bold ctermfg=250 ctermbg=237
     highlight StatusLineNC cterm=NONE ctermfg=240 ctermbg=236
     highlight SpellBad cterm=underline
@@ -133,6 +132,10 @@ set splitright
 " Plugin configuration
 "---------------------
 
+" java-syntax.vim
+highlight link javaIdentifier NONE
+highlight link javaDelimiter NONE
+
 " copilter.vim
 let g:copilot_filetypes = {
     \ '*' : v:false,
@@ -160,10 +163,11 @@ let g:leetcode_browser='chrome'
 
 " ale
 let g:ale_virtualtext_cursor = 'current'
-" Disable whitespace warnings
+" " Disable whitespace warnings
 let g:ale_warn_about_trailing_whitespace = 0
-" Set this in your vimrc file to disabling highlighting
-let g:ale_set_highlights = 0
+let g:ale_linters = {
+\   'java': ['checkstyle', 'cspell', 'eclipselsp', 'javac', 'javalsp', 'pmd'],
+\}
 
 "  y d p P   --  Quick copy paste into system clipboard
 nmap <Leader>y "+y

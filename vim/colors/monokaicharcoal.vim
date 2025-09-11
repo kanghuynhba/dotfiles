@@ -9,6 +9,9 @@ if exists("syntax_on")
 endif
 
 let g:colors_name = "monokaicharcoal"
+" Make Java variables white
+hi javaIdentifier guifg=#ffffff ctermfg=231 gui=NONE
+
 hi Cursor ctermfg=232 ctermbg=231 cterm=NONE guifg=#0a0006 guibg=#f8f8f0 gui=NONE
 hi Visual guibg=#44475a guifg=NONE
 hi CursorLine ctermfg=NONE ctermbg=234 cterm=NONE guifg=NONE guibg=#22191e gui=NONE

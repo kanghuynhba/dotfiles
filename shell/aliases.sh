@@ -98,7 +98,6 @@ leetcode() {
     source ~/venv/leetcode/bin/activate 
     if [[ "$1" == "-w" ]]; then
         open https://leetcode.com/problemset/
-        return
     fi
     cd $projectPath/leetcode/src 
     ls -t
