@@ -165,8 +165,9 @@ let g:leetcode_browser='chrome'
 let g:ale_virtualtext_cursor = 'current'
 " " Disable whitespace warnings
 let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_set_highlights=0
 let g:ale_linters = {
-\   'java': ['checkstyle', 'cspell', 'eclipselsp', 'javac', 'javalsp', 'pmd'],
+\   'java': ['mvn','checkstyle', 'cspell', 'eclipselsp', 'javac', 'javalsp', 'pmd'],
 \}
 
 "  y d p P   --  Quick copy paste into system clipboard
