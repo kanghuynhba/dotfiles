@@ -16,7 +16,7 @@
     ~/.editrc:
     ~/.emacs.d:
     ~/.emacs:
-    ~/.gitconfig:
+    ~/.gitconfig: 
     ~/.gitignore_global:
     ~/.gnupg/dirmngr.conf: gnupg/dirmngr.conf
     ~/.gnupg/gpg.conf: gnupg/gpg.conf
@@ -49,6 +49,7 @@
   - >
     git cleanall -f
     emacs.d/vendor/
+    gitconfig
     irssi/scripts/vendor/
     shell/plugins/
     vim/pack/vendor/start/
