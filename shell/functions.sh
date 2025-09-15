@@ -28,10 +28,24 @@ cppExe() {
 }
 
 mvnExe() {
-    if [ -z "$1" ]; then
-        mvn exec:java
+    if [ -f sentry.properties ]; then
+        echo "🔗 Running with Sentry agent..."
+        if [ -z "$1" ]; then
+            SENTRY_PROPERTIES_FILE=demo/sentry.properties \
+            mvn clean compile exec:java \
+                -Dexec.args="-javaagent:sentry-opentelemetry-agent-8.21.1.jar"
+        else
+            SENTRY_PROPERTIES_FILE=demo/sentry.properties \
+            mvn clean compile exec:java -Dexec.mainClass="$1" \
+                -Dexec.args="-javaagent:sentry-opentelemetry-agent-8.21.1.jar"
+        fi
     else
-        mvn exec:java -Dexec.mainClass="$1"
+        echo "⚡ Running without Sentry..."
+        if [ -z "$1" ]; then
+            mvn clean compile exec:java
+        else
+            mvn clean compile exec:java -Dexec.mainClass="$1"
+        fi
     fi
 }
 
