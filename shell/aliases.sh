@@ -73,7 +73,7 @@ alias gdb="pwndbg-lldb"
 alias writegood="write-good"
 
 # Copilot terminal alias ( ghce, ghcs )
-eval "$(gh copilot alias -- bash)"
+# eval "$(gh copilot alias -- bash)"
 
 # maven init
 mvnInit() {
