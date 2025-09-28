@@ -47,6 +47,7 @@ alias -- -="cd -"
 projectPath=~/Workspace/projects
 alias tools="cd ~/tools"
 alias tools="cd ~/tools"
+alias test="cd ~/Workspace/tests"
 alias pyProject="cd $projectPath/py-projects/"
 alias dotnetProject="cd $projectPath/dotnet-projects/"
 alias cppProject="cd $projectPath/cpp-projects/"
