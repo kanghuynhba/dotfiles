@@ -12,6 +12,9 @@ alias forex="tldr"
 # open alias
 alias open="xdg-open >/dev/null 2>&1"
 
+# connect gdrive
+alias gdrive="rclone mount gdrive: ~/gdrive"
+
 # Go up [n] directories
 up()
 {
@@ -51,8 +54,12 @@ alias test="cd ~/Workspace/tests"
 alias pyProject="cd $projectPath/py-projects/"
 alias dotnetProject="cd $projectPath/dotnet-projects/"
 alias cppProject="cd $projectPath/cpp-projects/"
-alias javaProject="cd $projectPath/java-projects/"
 alias vimPlugins="cd ~/.vim/pack/vendor/start"
+
+javaProject() {
+    cd "$projectPath/java-projects/"
+    tmuxInit "$1" 
+}
 
 # vim alias
 shellPath=~/dotfiles/shell
@@ -88,19 +95,18 @@ server() {
 
 # tmux init
 tmuxInit() {
-    tmux new -d -s "write"
-    tmux new -d -s "exec" 
-    tmux new -d -s "git" 
-    tmux a -t "write"
+    tmux new -d -s "write $1"
+    tmux new -d -s "exec $1" 
+    tmux new -d -s "git $1" 
+    tmux new -d -s "gemini $1" 
+    tmux a -t "write $1"
 }
 
 # activate env and cd to that directoy
 leetcode() {
-    source ~/venv/leetcode/bin/activate 
-    if [[ "$1" == "-w" ]]; then
-        open https://leetcode.com/problemset/
-    fi
+    open https://leetcode.com/problemset/
     cd $projectPath/leetcode/src 
+    tmuxInit "leetcode"
     ls -t
 }
 
