@@ -105,6 +105,8 @@
 
 [user]
 	useConfigOnly = true
+	email = kanghuynhba@gmail.com
+	name = kanghuynhba@gmail.com
 
 [http]
 	cookieFile = ~/.gitcookies

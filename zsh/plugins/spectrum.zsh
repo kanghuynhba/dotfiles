@@ -19,7 +19,7 @@ for color in {000..255}; do
     BG[$color]="%{[48;5;${color}m%}"
 done
 
-# Show all 256 colors with color number
+Show all 256 colors with color number
 function spectrum() {
     local cols=4
     if [[ "${1}" != "" ]]; then

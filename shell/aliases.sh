@@ -1,8 +1,13 @@
 set -o vi
 
 # ls alias 
-alias ll="ls -la"
-
+# --- Modern LS Replacement (eza) ---
+# --icons: shows file type icons
+# --group-directories-first: folders always at top
+# --git: shows git status (dirty/clean) next to file
+alias ls='eza --group-directories-first'
+alias ll='eza --group-directories-first -la --git'
+alias tree='eza --tree '
 # shutdown alias
 alias shutdown="systemctl poweroff"
 
@@ -13,29 +18,58 @@ alias forex="tldr"
 alias open="xdg-open >/dev/null 2>&1"
 
 # connect gdrive
-alias gdrive="rclone mount gdrive: ~/gdrive"
+gdrive() {
+      # Check if the mount point directory exists
+      if [ ! -d "$HOME/gdrive" ]; then
+        echo "Creating mount point: ~/gdrive"
+        mkdir -p "$HOME/gdrive"
+      fi
+
+      echo "Attempting to mount gdrive: to ~/gdrive..."
+      # Run in background with nohup, but log errors to a file
+      nohup rclone mount gdrive: ~/gdrive --vfs-cache-mode writes > ~/gdrive_mount.log 2>&1 &
+      
+      # Give it a second to try and mount
+      sleep 2
+      
+      # Check if the mount was successful
+      if mountpoint -q "$HOME/gdrive"; then
+        echo "✅ GDrive mounted successfully."
+      else
+        echo "❌ Mount failed. Check logs at ~/gdrive_mount.log"
+      fi
+    }
+
+    # Function to unmount
+    ungdrive() {
+      echo "Attempting to unmount ~/gdrive..."
+      fusermount -u ~/gdrive
+      if [ $? -eq 0 ]; then
+        echo "✅ GDrive unmounted successfully."
+      else
+        echo "❌ Unmount failed. Is it already unmounted?"
+      fi
+}
 
 # Go up [n] directories
-up()
-{
-    local cdir="$(pwd)"
-    if [[ "${1}" == "" ]]; then
-        cdir="$(dirname "${cdir}")"
-    elif ! [[ "${1}" =~ ^[0-9]+$ ]]; then
+up() {
+    local count=$1
+    # Default to 1 if no argument
+    [[ -z $count ]] && count=1
+    
+    # Verify input is a number
+    if ! [[ $count =~ ^[0-9]+$ ]]; then
         echo "Error: argument must be a number"
-    elif ! [[ "${1}" -gt "0" ]]; then
-        echo "Error: argument must be positive"
-    else
-        for ((i=0; i<${1}; i++)); do
-            local ncdir="$(dirname "${cdir}")"
-            if [[ "${cdir}" == "${ncdir}" ]]; then
-                break
-            else
-                cdir="${ncdir}"
-            fi
-        done
+        return 1
     fi
-    cd "${cdir}"
+
+    # Construct the path (../ repeated n times)
+    local d=""
+    for ((i=0; i<count; i++)); do
+        d="../$d"
+      done
+    
+    cd $d
 }
 
 # Easier navigation: .., ..., ...., ....., ~ and -
@@ -51,16 +85,24 @@ projectPath=~/Workspace/projects
 alias tools="cd ~/tools"
 alias tools="cd ~/tools"
 alias test="cd ~/Workspace/tests"
-alias pyProject="cd $projectPath/py-projects/"
 alias dotnetProject="cd $projectPath/dotnet-projects/"
 alias cppProject="cd $projectPath/cpp-projects/"
 alias vimPlugins="cd ~/.vim/pack/vendor/start"
+
+rustProject() {
+    cd "$projectPath/rust-projects/"
+    tmuxInit "$1" 
+}
 
 javaProject() {
     cd "$projectPath/java-projects/"
     tmuxInit "$1" 
 }
 
+pyProject() {
+    cd $projectPath/py-projects/
+    tmuxInit "$1"
+}
 # vim alias
 shellPath=~/dotfiles/shell
 alias aliasConfig="vim $shellPath/aliases.sh"
@@ -98,7 +140,7 @@ tmuxInit() {
     tmux new -d -s "write $1"
     tmux new -d -s "exec $1" 
     tmux new -d -s "git $1" 
-    tmux new -d -s "gemini $1" 
+    tmux new -d -s "sample $1" 
     tmux a -t "write $1"
 }
 
@@ -119,17 +161,18 @@ eclipse() {
 
 # open google
 google() {
-	local query=$(echo $@ | sed 's/ /+/g') 
-	open https://www.google.com/search?q=$query 
+	local query=$(echo "$*" | sed 's/ /+/g') 
+    # 3. IMPORTANT: Quotes required around URL in Zsh because of '?'d"
+    open "https://www.google.com/search?q=$query"
 }
 
 # open github
 github() {
-    open https://github.com/kanghuynhba?tab=repositories
+    open "https://github.com/kanghuynhba?tab=repositories"
 }
 
 listCourses() {
-	open https://space.bilibili.com/400647031/lists/389026?type=series
+	open "https://space.bilibili.com/400647031/lists/389026?type=series"
 }
 
 # Update dotfiles
@@ -152,3 +195,17 @@ jump() {
 # Mirror a website
 alias mirrorsite='wget -m -k -K -E -e robots=off'
 
+# Detect OS and set copy alias
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    alias copy='pbcopy'
+    alias paste='pbpaste'
+elif grep -q Microsoft /proc/version 2>/dev/null; then
+    # WSL (Windows Subsystem for Linux)
+    alias copy='clip.exe'
+    # No easy paste for WSL CLI
+else
+    # Linux (assuming X11)
+    alias copy='xclip -selection clipboard'
+    alias paste='xclip -selection clipboard -o'
+fi

@@ -136,17 +136,11 @@ set splitright
 highlight link javaIdentifier NONE
 highlight link javaDelimiter NONE
 
-" copilter.vim
+" copilot.vim
 let g:copilot_filetypes = {
-    \ '*' : v:false,
-    \ 'markdown': v:false,
-    \ 'help': v:false,
-    \ 'gitcommit': v:false,
-    \ 'gitrebase': v:false,
-    \ 'hgcommit': v:false,
-    \ 'svn': v:false,
-    \ 'cvs': v:false,
-    \ 'sh': v:true,
+    \ '*' : v:true,
+    \ 'cpp' : v:false,
+    \ 'java' : v:false,
     \ }
 
 " ctrlp
