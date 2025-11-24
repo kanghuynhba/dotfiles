@@ -11,6 +11,15 @@ endif
 let g:colors_name = "monokaicharcoal"
 " Make Java variables white
 hi javaIdentifier guifg=#ffffff ctermfg=231 gui=NONE
+" --- Coc.nvim highlights ---
+" Floating Window: Pure Black background for contrast
+hi CocFloating ctermbg=16 ctermfg=231 guibg=#000000 guifg=#f8f8f2
+" Floating Error: Monokai Pink/Red text with Black background
+hi CocErrorFloat ctermbg=16 ctermfg=197 guibg=#000000 guifg=#f92672
+" Search Match: Monokai Cyan (matches Identifier)
+hi CocSearch ctermfg=81 guifg=#66d9ef gui=bold
+" Menu Selection: Dark Blue background (from DiffText) with White text
+hi CocMenuSel ctermbg=24 ctermfg=231 guibg=#204a87 guifg=#ffffff
 
 hi Cursor ctermfg=232 ctermbg=231 cterm=NONE guifg=#0a0006 guibg=#f8f8f0 gui=NONE
 hi Visual guibg=#44475a guifg=NONE
