@@ -120,3 +120,5 @@
 # Allow local customizations in the .gitconfig_local file
 [include]
 	path = ~/.gitconfig_local
+[coderabbit]
+	machineId = cli/dacd0e1608b342489e0db231d08b5323

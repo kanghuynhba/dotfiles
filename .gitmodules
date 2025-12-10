@@ -46,3 +46,9 @@
 [submodule "vim/pack/vendor/start/coc.nvim"]
 	path = vim/pack/vendor/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
+[submodule "vim/pack/vendor/start/vim/pack/vendor/start/vim-markdown.git"]
+	path = vim/pack/vendor/start/vim/pack/vendor/start/vim-markdown.git
+	url = https://github.com/preservim/vim-markdown.git
+[submodule "vim/pack/vendor/start/vim/pack/vendor/start/tabular"]
+	path = vim/pack/vendor/start/vim/pack/vendor/start/tabular
+	url = https://github.com/godlygeek/tabular.git
