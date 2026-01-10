@@ -52,3 +52,6 @@
 [submodule "vim/pack/vendor/start/vim/pack/vendor/start/tabular"]
 	path = vim/pack/vendor/start/vim/pack/vendor/start/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule "vim/pack/vendor/start/vim/pack/vendor/start/github-nvim-theme"]
+	path = vim/pack/vendor/start/vim/pack/vendor/start/github-nvim-theme
+	url = https://github.com/projekt0n/github-nvim-theme.git
