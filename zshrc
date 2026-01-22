@@ -10,21 +10,15 @@ fi
 # ==============================================================================
 export ZSH="$HOME/.oh-my-zsh"
 
-# --- CRITICAL FIX: Custom Path Definition ---
-# This must be defined BEFORE sourcing oh-my-zsh.sh so plugins are found.
-ZSH_CUSTOM="$HOME/.zsh"
+# Custom ZSH configuration location (FIXED PATH)
+ZSH_CUSTOM="$HOME/Config/dotfiles/zsh"
 
 # ==============================================================================
 # 3. OH-MY-ZSH CONFIGURATION
 # ==============================================================================
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Standard Oh-My-Zsh settings
-# HYPHEN_INSENSITIVE="true"
-# ENABLE_CORRECTION="true"
-
 # Plugins to load
-# Note: I added back the plugins you were trying to use earlier.
 plugins=(
   git
   zsh-completions
@@ -35,19 +29,18 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # ==============================================================================
-# 4. USER SCRIPTS (SAFE LOADING)
+# 4. USER SCRIPTS (FIXED PATHS)
 # ==============================================================================
-# We check if the file exists [[ -f ]] before sourcing to prevent crashes.
+SHELL_PATH="$HOME/Config/dotfiles/shell"
 
-[[ -f ~/.shell/aliases.sh ]]   && source ~/.shell/aliases.sh
-[[ -f ~/.shell/functions.sh ]] && source ~/.shell/functions.sh
-[[ -f ~/.shell/bootstrap.sh ]] && source ~/.shell/bootstrap.sh
-[[ -f ~/.shell/courses.sh ]]   && source ~/.shell/courses.sh
+[[ -f $SHELL_PATH/aliases.sh ]]   && source $SHELL_PATH/aliases.sh
+[[ -f $SHELL_PATH/functions.sh ]] && source $SHELL_PATH/functions.sh
+[[ -f $SHELL_PATH/bootstrap.sh ]] && source $SHELL_PATH/bootstrap.sh
+[[ -f $SHELL_PATH/courses.sh ]]   && source $SHELL_PATH/courses.sh
 
-# ==============================================================================
-# 5. STYLING & COLORS (CRASH PROOF)
-# ==============================================================================
-# Only run vivid if it is installed on the system
+# # ==============================================================================
+# # 5. STYLING & COLORS
+# # ==============================================================================
 if command -v vivid > /dev/null; then
     export LS_COLORS="$(vivid generate molokai)"
     zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -58,7 +51,8 @@ fi
 # ==============================================================================
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Change autosuggestion color to a visible gray
+# Autosuggestion styling
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+
 # Accept autosuggestion with Ctrl + Space
 bindkey '^ ' autosuggest-accept

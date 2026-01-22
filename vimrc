@@ -35,29 +35,67 @@ set nocompatible " not vi compatible
 "------------------
 set showmatch " show matching braces when text indicator is over them
 
-" Colorscheme
-" Automatically configure colors based on environment
-if has('gui_running')
-    colorscheme Monokai Charcoal
-    let g:lightline = {'colorscheme': 'wombat'}
-    colorscheme default
-    set nocursorline " looks bad in this mode
-else
+" --- Theme Management ---
+let s:bg_cache = expand('~/.vim_mode')
+
+function! SetDark()
     set background=dark
-    colorscheme monokaicharcoal
-    " Optional: tweak highlight groups to look better in terminal
+    try 
+        colorscheme monokaicharcoal
+    catch
+        colorscheme default
+    endtry
+
+    " Your custom highlights for Monokai
     let g:cpp_operator_highlight = 1
-    let g:cpp_constant_highlight= 1
+    let g:cpp_constant_highlight = 1
     highlight SignColumn ctermbg=235
     highlight MatchParen ctermfg=Red ctermbg=Black guifg=Red guibg=Black
     highlight StatusLine cterm=bold ctermfg=250 ctermbg=237
     highlight StatusLineNC cterm=NONE ctermfg=240 ctermbg=236
     highlight SpellBad cterm=underline
     highlight CursorLineNr cterm=NONE
+    
+    " Lightline theme for dark mode
     let g:lightline = {'colorscheme': 'wombat'}
-endif
+    
+    " Save preference
+    call writefile(['dark'], s:bg_cache)
+endfunction
 
-" highlight current line, but only in active window
+function! SetLight()
+    set background=light
+    try
+        colorscheme github
+    catch
+        colorscheme default " Fallback if github theme is missing
+    endtry
+    
+    " Lightline theme for light mode (optional, 'one' or 'papercolor' usually look good)
+    let g:lightline = {'colorscheme': 'one'} 
+
+    " Save preference
+    call writefile(['light'], s:bg_cache)
+endfunction
+
+" --- Commands ---
+command! Dark call SetDark() | echo "Switched to Dark Mode"
+command! Light call SetLight() | echo "Switched to Light Mode"
+
+" --- Startup Logic ---
+" Read the cache file to decide which one to load on startup
+if filereadable(s:bg_cache)
+    let s:mode = readfile(s:bg_cache)[0]
+    if s:mode == "light"
+        call SetLight()
+    else
+        call SetDark()
+    endif
+else
+    " Default to Dark if no history exists
+    call SetDark()
+endif" highlight current line, but only in active window
+
 augroup  CursorLineOnlyInActiveWindow
     autocmd!
     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
@@ -155,7 +193,7 @@ nnoremap <leader>ll :LeetCodeList<cr>
 nnoremap <leader>lt :LeetCodeTest<cr>
 nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
-let g:leetcode_browser='chrome'
+let g:leetcode_browser='brave'
 
 " ale
 let g:ale_virtualtext_cursor = 'current'
