@@ -34,6 +34,7 @@ source $ZSH/oh-my-zsh.sh
 SHELL_PATH="$HOME/Config/dotfiles/shell"
 
 [[ -f $SHELL_PATH/aliases.sh ]]   && source $SHELL_PATH/aliases.sh
+[[ -f $SHELL_PATH/load_all.sh ]]   && source $SHELL_PATH/load_all.sh
 [[ -f $SHELL_PATH/functions.sh ]] && source $SHELL_PATH/functions.sh
 [[ -f $SHELL_PATH/bootstrap.sh ]] && source $SHELL_PATH/bootstrap.sh
 [[ -f $SHELL_PATH/courses.sh ]]   && source $SHELL_PATH/courses.sh

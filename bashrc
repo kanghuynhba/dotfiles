@@ -19,6 +19,8 @@ source ~/.shell/bootstrap.sh
 # Aliases
 source ~/.shell/aliases.sh
 
+source ~/.shell/load_all.sh
+
 # Courses
 source ~/.shell/courses.sh
 
