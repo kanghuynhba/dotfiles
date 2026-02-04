@@ -181,6 +181,7 @@ let g:copilot_filetypes = {
     \ 'cpp' : v:false,
     \ 'java' : v:false,
     \ 'rust' : v:false,
+    \ 'markdown' : v:false,
     \ }
 
 " ctrlp
@@ -194,6 +195,7 @@ nnoremap <leader>lt :LeetCodeTest<cr>
 nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
 let g:leetcode_browser='brave'
+let g:leetcode_solution_filetype='rust'
 
 " ale
 let g:ale_virtualtext_cursor = 'current'

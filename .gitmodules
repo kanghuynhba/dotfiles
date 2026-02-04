@@ -55,3 +55,6 @@
 [submodule "vim/pack/vendor/start/vim/pack/vendor/start/github-nvim-theme"]
 	path = vim/pack/vendor/start/vim/pack/vendor/start/github-nvim-theme
 	url = https://github.com/projekt0n/github-nvim-theme.git
+[submodule "vim/pack/vendor/start/vim/pack/vendor/start/rust.vim"]
+	path = vim/pack/vendor/start/vim/pack/vendor/start/rust.vim
+	url = https://github.com/rust-lang/rust.vim.git

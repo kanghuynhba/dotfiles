@@ -21,6 +21,7 @@ alias -- -='cd -'
 alias work='cd ~/Work'
 alias career='cd ~/Work/Career'
 alias learn='cd ~/Work/Learning'
+alias docs='cd ~/Work/Learning/Documentation'
 
 # Projects
 alias projects='cd ~/Work/Projects'
@@ -40,7 +41,6 @@ alias courses='cd ~/University/DUT/Courses'
 # ============================================================================
 
 alias personal='cd ~/Personal'
-alias docs='cd ~/Personal/Documents'
 alias books='cd ~/Personal/Media/Books'
 
 # ============================================================================
