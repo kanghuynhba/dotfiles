@@ -107,6 +107,7 @@ augroup END
 " but it can be set to force 256 colors
 set t_Co=256
 
+syntax enable
 filetype plugin indent on " enable file type detection
 set autoindent
 
@@ -148,6 +149,10 @@ let g:markdown_fenced_languages = [
 \]
 let g:markdown_syntax_conceal = 0
 let g:markdown_folding = 1
+
+" rust.vim
+let g:rustfmt_autosave = 1
+let g:syntastic_rust_checkers = ['cargo']
 
 "--------------------
 " Misc configurations
@@ -198,12 +203,15 @@ let g:leetcode_browser='brave'
 let g:leetcode_solution_filetype='rust'
 
 " ale
+set signcolumn=yes
 let g:ale_virtualtext_cursor = 'current'
 " " Disable whitespace warnings
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_set_highlights=0
+let g:ale_disable_lsp = 1
 let g:ale_linters = {
 \   'java': ['mvn','checkstyle', 'cspell', 'eclipselsp', 'javac', 'javalsp', 'pmd'],
+\   'rust': ['cargo', 'rls', 'clippy', 'cspell'], 
 \}
 
 "  y d p P   --  Quick copy paste into system clipboard
@@ -455,3 +463,37 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" =============================================================================
+" Language Specific Mappings (Run, Build, Test)
+" =============================================================================
+
+augroup LangRunner
+    autocmd!
+
+    " --- RUST ---
+    autocmd FileType rust nnoremap <buffer> <leader>rr :RustRun<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>rt :RustTest<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>rta :RustTest!<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>bb :cargo build<cr>
+
+    " --- PYTHON ---
+    " Python usually doesn't need a 'build' step, so we map bb to check syntax
+    autocmd FileType python nnoremap <buffer> <leader>rr :w <bar> !python3 %<cr>
+    autocmd FileType python nnoremap <buffer> <leader>rt :w <bar> !pytest %<cr>
+
+    " --- C++ ---
+    " Build (bb) compiles; Run (rr) compiles and executes
+    autocmd FileType cpp nnoremap <buffer> <leader>bb :w <bar> !g++ -O3 % -o %:r<cr>
+    autocmd FileType cpp nnoremap <buffer> <leader>rr :w <bar> !g++ -O3 % -o %:r && ./%:r<cr>
+
+    " --- JAVA ---
+    " Build (bb) compiles; Run (rr) runs the class file
+    autocmd FileType java nnoremap <buffer> <leader>bb :w <bar> !javac %<cr>
+    autocmd FileType java nnoremap <buffer> <leader>rr :w <bar> !javac % && java %:r<cr>
+
+augroup END
+
+" --- GLOBAL LSP (Works across all languages if you have an LSP client) ---
+nnoremap <leader>ca :lua vim.lsp.buf.code_action()<cr>
+nnoremap <leader>cr :lua vim.lsp.buf.rename()<cr>

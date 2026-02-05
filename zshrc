@@ -57,3 +57,5 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
 # Accept autosuggestion with Ctrl + Space
 bindkey '^ ' autosuggest-accept
+
+export PATH="$HOME/.cargo/bin:$PATH"
