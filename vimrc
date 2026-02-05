@@ -472,10 +472,10 @@ augroup LangRunner
     autocmd!
 
     " --- RUST ---
-    autocmd FileType rust nnoremap <buffer> <leader>rr :RustRun<cr>
-    autocmd FileType rust nnoremap <buffer> <leader>rt :RustTest<cr>
-    autocmd FileType rust nnoremap <buffer> <leader>rta :RustTest!<cr>
-    autocmd FileType rust nnoremap <buffer> <leader>bb :cargo build<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>rr :vert RustRun<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>rt :vert RustTest<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>rta :vert RustTest!<cr>
+    autocmd FileType rust nnoremap <buffer> <leader>bb :vert cargo build<cr>
 
     " --- PYTHON ---
     " Python usually doesn't need a 'build' step, so we map bb to check syntax
