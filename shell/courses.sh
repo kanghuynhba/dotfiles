@@ -16,11 +16,8 @@ mit6046() {
 
 #Stanford
 cs229() {
-    open ~/Documents/note/Main\ Open\ Course/cs229-2018-autumn/syllabus-autumn2018
-    open https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU
-    source ~/venv/cs229/bin/activate
-    pyProject
-    cd cs229/
+    open ~/Work/Learning/OpenCourses/cs229-2018-autumn/syllabus-autumn2018.html    
+    open "https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU"
 }
 
 cs221() {
@@ -32,9 +29,8 @@ cs221() {
 
 #CMU
 cmu15445() {
-    open "https://15445.courses.cs.cmu.edu/spring2025/schedule.html"
-    open "https://15445.courses.cs.cmu.edu/fall2024/schedule.html"
-    open "https://www.bilibili.com/video/BV169QhYZEhn?spm_id_from=333.788.videopod.sections&vd_source=83a430eab3c17ad059d382af7fc9db2e&p=2"
+    open "https://15445.courses.cs.cmu.edu/fall2025/schedule.html"
+    open "https://www.youtube.com/playlist?list=PLSE8ODhjZXjYMAgsGH-GtY5rJYZ6zjsd5"
     cppProject
     cd "cmu-15.445"
 }

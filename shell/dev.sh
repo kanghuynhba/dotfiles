@@ -12,6 +12,7 @@ SHELL_PATH=$CONFIG_PATH/shell
 
 # Shell configuration files (modular)
 alias editCore="vim $SHELL_PATH/core.sh"
+alias editCourses="vim $SHELL_PATH/courses.sh"
 alias editNav="vim $SHELL_PATH/navigation.sh"
 alias editProjects="vim $SHELL_PATH/projects.sh"
 alias editTmux="vim $SHELL_PATH/tmux.sh"
@@ -41,6 +42,7 @@ alias editHelp='cat << EOF
 Shell Configuration Editing Commands:
 =====================================
 editCore      - Core system aliases (eza, grep, safety nets)
+editCourses   - Edit courses (cmu15445, mit6006, mit6046,...)
 editNav       - Navigation shortcuts (work, uni, personal)
 editProjects  - Project management functions
 editTmux      - Tmux session management

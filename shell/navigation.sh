@@ -26,7 +26,7 @@ alias docs='cd ~/Work/Learning/Documentation'
 # Projects
 alias projects='cd ~/Work/Projects'
 alias lc='cd ~/Work/Projects/LeetCode/patterns/src'
-alias leetcode='cd ~/Work/Projects/LeetCode/patterns/src && tmuxInit leetcode'
+alias leetcode='cd ~/Work/Projects/LeetCode/patterns/src && leetweb'
 
 # ============================================================================
 # UNIVERSITY

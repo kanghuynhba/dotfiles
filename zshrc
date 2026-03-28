@@ -59,3 +59,10 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 bindkey '^ ' autosuggest-accept
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# Ensure Homebrew binaries are prioritized
+export PATH="/opt/homebrew/bin:$PATH"
+
+# Force 'vim' to use the Homebrew version with Python support
+alias vim='/opt/homebrew/bin/vim'
+alias vi='/opt/homebrew/bin/vim'

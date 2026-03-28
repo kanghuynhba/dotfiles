@@ -31,7 +31,7 @@ alias forex='tldr'
 alias help='tldr'
 
 # File operations
-alias open='xdg-open >/dev/null 2>&1'
+# alias open='xdg-open >/dev/null 2>&1'
 alias du='du -h'
 alias df='df -h'
 

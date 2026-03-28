@@ -63,6 +63,9 @@ function! SetDark()
     call writefile(['dark'], s:bg_cache)
 endfunction
 
+" Point to the Homebrew Python 3 binary
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
+
 function! SetLight()
     set background=light
     try
@@ -200,7 +203,6 @@ nnoremap <leader>lt :LeetCodeTest<cr>
 nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
 let g:leetcode_browser='brave'
-let g:leetcode_solution_filetype='rust'
 
 " ale
 set signcolumn=yes
@@ -483,9 +485,9 @@ augroup LangRunner
     autocmd FileType python nnoremap <buffer> <leader>rt :w <bar> !pytest %<cr>
 
     " --- C++ ---
-    " Build (bb) compiles; Run (rr) compiles and executes
-    autocmd FileType cpp nnoremap <buffer> <leader>bb :w <bar> !g++ -O3 % -o %:r<cr>
-    autocmd FileType cpp nnoremap <buffer> <leader>rr :w <bar> !g++ -O3 % -o %:r && ./%:r<cr>
+    " Build (bb) compiles; Run (rr) compiles and executes using Homebrew GCC 15
+    autocmd FileType cpp nnoremap <buffer> <leader>bb :w <bar> !g++-15 -O3 % -o %:r<cr>
+    autocmd FileType cpp nnoremap <buffer> <leader>rr :w <bar> !g++-15 -O3 % -o %:r && ./%:r<cr>
 
     " --- JAVA ---
     " Build (bb) compiles; Run (rr) runs the class file
