@@ -1,45 +1,40 @@
 #!/bin/bash
 # ============================================================================
-# Tmux Session Management
+# tmux.sh - The Session Engine
 # ============================================================================
 
-# ============================================================================
-# SESSION INITIALIZATION
-# ============================================================================
+# Internal engine used by other scripts
+_tmux_switch() {
+    local folder="$1"
+    local name="$2"
 
-tmuxInit() {
-    local project_name="${1:-default}"
-    
-    # Create sessions only if they don't exist
-    tmux has-session -t "code-$project_name" 2>/dev/null || \
-        tmux new-session -d -s "code-$project_name"
-    
-    tmux has-session -t "exec-$project_name" 2>/dev/null || \
-        tmux new-session -d -s "exec-$project_name"
-    
-    tmux has-session -t "git-$project_name" 2>/dev/null || \
-        tmux new-session -d -s "git-$project_name"
-    
-    # Attach to code session
-    tmux attach-session -t "code-$project_name"
+    if ! tmux has-session -t "$name" 2>/dev/null; then
+        tmux new-session -d -s "$name" -c "$folder" -n "code"
+        tmux new-window -t "$name" -c "$folder" -n "exec"
+        tmux new-window -t "$name" -c "$folder" -n "git"
+        tmux send-keys -t "$name:code" "nvim ." C-m
+    fi
+
+    [[ -z "$TMUX" ]] && tmux attach -t "$name" || tmux switch-client -t "$name"
 }
 
-# ============================================================================
-# SESSION CLEANUP
-# ============================================================================
+# The Fuzzy Teleporter
+tp() {
+    # Use $HOME for reliability
+    local search_dir="$HOME/Work/Projects/projects"
+    
+    # Ensure fzf is in the PATH for the popup
+    export PATH="$PATH:$HOME/Config/dotfiles/zsh/plugins/fzf/bin"
 
-tmuxKill() {
-    local project_name="${1:-default}"
-    tmux kill-session -t "code-$project_name" 2>/dev/null
-    tmux kill-session -t "exec-$project_name" 2>/dev/null
-    tmux kill-session -t "git-$project_name" 2>/dev/null
-    echo "Killed all sessions for: $project_name"
+    local selected=$(find "$search_dir" -mindepth 2 -maxdepth 2 -type d | fzf)
+    [[ -z "$selected" ]] && return
+    
+    local name=$(basename "$selected" | tr . _)
+    _tmux_switch "$selected" "$name"
 }
 
-# ============================================================================
-# QUICK ALIASES
-# ============================================================================
+tkill() {
+    tmux kill-session -t "$(tmux display-message -p '#S')"
+}
 
 alias tls='tmux ls'
-alias ta='tmux attach-session -t'
-alias tn='tmux new-session -s'

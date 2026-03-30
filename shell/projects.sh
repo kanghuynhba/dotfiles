@@ -1,110 +1,58 @@
 #!/bin/bash
 # ============================================================================
-# Project Management Functions
+# projects.sh - Language Logic
 # ============================================================================
 
-# Base project path
-PROJECT_PATH=~/Work/Projects/projects
+PROJECT_PATH="$HOME/Work/Projects/projects"
 
-# ============================================================================
-# LANGUAGE-SPECIFIC PROJECT NAVIGATION
-# ============================================================================
+# Smart Navigation: Works for any language
+# Usage: pproj cpp my-api
+pproj() {
+    local lang_dir="$1-projects"
+    local proj_name="$2"
+    local target="$PROJECT_PATH/$lang_dir/$proj_name"
 
-cppProject() {
-    cd "$PROJECT_PATH/cpp-projects/$1"
-    [ -n "$1" ] && tmuxInit "$1"
-}
-
-javaProject() {
-    cd "$PROJECT_PATH/java-projects/$1"
-    [ -n "$1" ] && tmuxInit "$1"
-}
-
-pyProject() {
-    cd "$PROJECT_PATH/py-projects/$1"
-    [ -n "$1" ] && tmuxInit "$1"
-}
-
-rustProject() {
-    cd "$PROJECT_PATH/rust-projects/$1"
-    [ -n "$1" ] && tmuxInit "$1"
-}
-
-swiftProject() {
-    cd "$PROJECT_PATH/swift-projects/$1"
-    [ -n "$1" ] && tmuxInit "$1"
-}
-
-# Quick access to specific projects
-alias bustub="cd $PROJECT_PATH/cpp-projects/bustub-private"
-
-# ============================================================================
-# NEW PROJECT CREATION
-# ============================================================================
-
-newproject() {
-    local name=$1
-    local type=${2:-"general"}
-    
-    if [ -z "$name" ]; then
-        echo "Error: Project name required"
-        echo "Usage: newproject <name> [cpp|java|python|rust]"
-        return 1
+    if [ -d "$target" ]; then
+        _tmux_switch "$target" "$proj_name"
+    else
+        echo "Project $proj_name not found in $lang_dir"
     fi
-    
+}
+
+# New Project Creation
+newproject() {
+    local name="$1"
+    local type="${2:-"general"}"
+    [[ -z "$name" ]] && return 1
+
+    local lang_folder="general"
     case "$type" in
-        cpp|c++)
-            mkdir -p "$PROJECT_PATH/cpp-projects/$name"/{src,include,tests}
-            echo "C++ project created: $name"
-            ;;
-        java)
-            cd "$PROJECT_PATH/java-projects"
-            mvnInit "$name"
-            ;;
-        python|py)
-            mkdir -p "$PROJECT_PATH/py-projects/$name"
-            cd "$PROJECT_PATH/py-projects/$name"
-            python3 -m venv venv
-            echo "Python project created: $name"
-            ;;
-        rust)
-            cd "$PROJECT_PATH/rust-projects"
-            cargo new "$name"
-            echo "Rust project created: $name"
-            ;;
-        *)
-            mkdir -p "$PROJECT_PATH/$name"
-            echo "General project created: $name"
-            ;;
+        cpp|c++)   lang_folder="cpp-projects" ;;
+        java)      lang_folder="java-projects" ;;
+        py|python) lang_folder="py-projects" ;;
+        rust)      lang_folder="rust-projects" ;;
     esac
+
+    local full_path="$PROJECT_PATH/$lang_folder/$name"
+    mkdir -p "$full_path"
+
+    # Run init commands
+    case "$type" in
+        rust) cd "$full_path" && cargo init ;;
+        py)   python3 -m venv "$full_path/venv" ;;
+        cpp)  mkdir -p "$full_path"/{src,include} ;;
+    esac
+
+    _tmux_switch "$full_path" "$name"
 }
 
-# ============================================================================
-# BUILD ARTIFACT CLEANUP
-# ============================================================================
-
+# Unified Cleanup
 clean() {
-    echo "Cleaning build artifacts..."
-    
-    # C/C++
-    find . -type f -name "*.o" -delete
-    find . -type f -name "*.out" -delete
-    find . -type d -name "build" -exec rm -rf {} + 2>/dev/null
-    
-    # Java
-    find . -type d -name "target" -exec rm -rf {} + 2>/dev/null
-    find . -type f -name "*.class" -delete
-    
-    # Python
-    find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null
-    find . -type f -name "*.pyc" -delete
-    find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null
-    
-    # Rust
-    find . -type d -name "target" -exec rm -rf {} + 2>/dev/null
-    
-    # Node
-    find . -type d -name "node_modules" -exec rm -rf {} + 2>/dev/null
-    
-    echo "Cleanup complete"
+    [[ "$PWD" == "$HOME" ]] && return 1
+    echo "Cleaning $PWD..."
+    find . -type d \( -name "build" -o -name "target" -o -name "__pycache__" -o -name "node_modules" \) -exec rm -rf {} + 2>/dev/null
+    find . -type f \( -name "*.o" -o -name "*.class" -o -name "*.pyc" \) -delete
 }
+
+# Legacy Aliases (pointing to the new engine)
+alias bustub="pproj cpp bustub-private"

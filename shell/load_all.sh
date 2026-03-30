@@ -18,11 +18,11 @@ SHELL_CONFIG_DIR="${HOME}/Config/dotfiles/shell"
 # Navigation shortcuts
 [ -f "${SHELL_CONFIG_DIR}/navigation.sh" ] && source "${SHELL_CONFIG_DIR}/navigation.sh"
 
-# Project management functions
-[ -f "${SHELL_CONFIG_DIR}/projects.sh" ] && source "${SHELL_CONFIG_DIR}/projects.sh"
-
 # Tmux session management
 [ -f "${SHELL_CONFIG_DIR}/tmux.sh" ] && source "${SHELL_CONFIG_DIR}/tmux.sh"
+
+# Project management functions
+[ -f "${SHELL_CONFIG_DIR}/projects.sh" ] && source "${SHELL_CONFIG_DIR}/projects.sh"
 
 # Cloud storage functions
 [ -f "${SHELL_CONFIG_DIR}/cloud.sh" ] && source "${SHELL_CONFIG_DIR}/cloud.sh"
