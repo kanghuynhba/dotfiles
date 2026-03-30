@@ -216,11 +216,22 @@ let g:ale_linters = {
 \   'rust': ['cargo', 'rls', 'clippy', 'cspell'], 
 \}
 
-" fzf
-" Register the core fzf directory
-set rtp+=~/.zsh/plugins/fzf
-" Quick shortcut to search files
+" --- FZF Configuration ---
+set termguicolors
+set rtp+=~/Config/dotfiles/zsh/plugins/fzf
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7, 'border': 'rounded' } }
+" Apply Orange to the border via fzf's own color flags
+let $FZF_DEFAULT_OPTS = '--bind="ctrl-d:preview-page-down,ctrl-u:preview-page-up" --preview "bat --style=numbers --color=always --line-range :500 {}"'
+let $FZF_DEFAULT_OPTS .= ' --color=border:#fd971f,bg:#0a0006,bg+:#22191e,hl:#a6e22e,hl+:#f92672'
+if !exists("g:mapleader")
+  let g:mapleader = " "
+endif
 nnoremap <C-p> :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>h :History<CR>
+nnoremap <leader>g :Rg<Space>
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
 
 "  y d p P   --  Quick copy paste into system clipboard
 nmap <Leader>y "+y

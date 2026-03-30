@@ -68,3 +68,21 @@ alias vim='/opt/homebrew/bin/vim'
 alias vi='/opt/homebrew/bin/vim'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# 1. Point to your submodule path
+export FZF_BASE=~/Config/dotfiles/zsh/plugins/fzf
+# 2. Add the fzf binary to your PATH
+export PATH="$PATH:$FZF_BASE/bin"
+
+# 3. Use Ripgrep (rg) for searching (ignores .git and node_modules automatically)
+if (( $+commands[rg] )); then
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
+# 4. Source the fuzzy completion and keybindings
+source "$FZF_BASE/shell/completion.zsh"
+source "$FZF_BASE/shell/key-bindings.zsh"
+# Professional "One Dark" style colors for fzf
+export FZF_DEFAULT_OPTS='--color=fg:-1,bg:-1,hl:#5f87af,fg+:#afaf00,bg+:#262626,hl+:#5fd7ff --color=info:#afaf87,prompt:#d7005f,pointer:#af5f00,marker:#87ff00,header:#87afaf'
+# Make bat match your Monokai Charcoal theme
+export BAT_THEME="Monokai Extended"
