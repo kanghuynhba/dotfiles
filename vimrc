@@ -216,6 +216,12 @@ let g:ale_linters = {
 \   'rust': ['cargo', 'rls', 'clippy', 'cspell'], 
 \}
 
+" fzf
+" Register the core fzf directory
+set rtp+=~/.zsh/plugins/fzf
+" Quick shortcut to search files
+nnoremap <C-p> :Files<CR>
+
 "  y d p P   --  Quick copy paste into system clipboard
 nmap <Leader>y "+y
 nmap <Leader>d "+d
@@ -465,7 +471,6 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
 " =============================================================================
 " Language Specific Mappings (Run, Build, Test)
 " =============================================================================
