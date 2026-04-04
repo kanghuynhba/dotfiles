@@ -159,3 +159,32 @@ timer() {
     paplay /usr/share/sounds/freedesktop/stereo/complete.oga 2>/dev/null || \
     echo -e "\a"
 }
+
+# ==========================================
+# Network Utilities
+# ==========================================
+# Get SSH Connection Info
+ssh_info() {
+    local current_user="$USER"
+    local current_ip=""
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        current_ip=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null)
+    else
+        current_ip=$(hostname -I 2>/dev/null | awk '{print $1}')
+    fi
+
+    echo "---------------------------------------"
+    echo "   SSH Info for this machine"
+    echo "---------------------------------------"
+    if [ -z "$current_ip" ]; then
+        echo "  Could not find a local IP address."
+        echo "   Are you connected to a network?"
+    else
+        echo "To connect TO this machine, type this on the other one:"
+        echo ""
+        echo "   ssh ${current_user}@${current_ip}"
+        echo ""
+    fi
+    echo "---------------------------------------"
+}
