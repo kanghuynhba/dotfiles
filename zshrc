@@ -39,9 +39,9 @@ SHELL_PATH="$HOME/Config/dotfiles/shell"
 [[ -f $SHELL_PATH/bootstrap.sh ]] && source $SHELL_PATH/bootstrap.sh
 [[ -f $SHELL_PATH/courses.sh ]]   && source $SHELL_PATH/courses.sh
 
-# # ==============================================================================
-# # 5. STYLING & COLORS
-# # ==============================================================================
+# ==============================================================================
+# 5. STYLING & COLORS
+# ==============================================================================
 if command -v vivid > /dev/null; then
     export LS_COLORS="$(vivid generate molokai)"
     zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -60,12 +60,23 @@ bindkey '^ ' autosuggest-accept
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# Ensure Homebrew binaries are prioritized
-export PATH="/opt/homebrew/bin:$PATH"
+# Ensure Homebrew/Linuxbrew binaries are prioritized based on OS
+if [[ -d "/opt/homebrew/bin" ]]; then
+  export PATH="/opt/homebrew/bin:$PATH"                 # Mac Apple Silicon
+elif [[ -d "/usr/local/bin" ]]; then
+  export PATH="/usr/local/bin:$PATH"                    # Mac Intel / Linux defaults
+elif [[ -d "/home/linuxbrew/.linuxbrew/bin" ]]; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"    # Linuxbrew
+fi
 
-# Force 'vim' to use the Homebrew version with Python support
-alias vim='/opt/homebrew/bin/vim'
-alias vi='/opt/homebrew/bin/vim'
+# Force 'vim' to use the Homebrew version with Python support if available
+if [[ -x "/opt/homebrew/bin/vim" ]]; then
+  alias vim='/opt/homebrew/bin/vim'
+  alias vi='/opt/homebrew/bin/vim'
+elif command -v vim > /dev/null; then
+  # Fallback for Linux or Intel Macs
+  alias vi='vim'
+fi
 
 # ==============================================================================
 # 7. FZF CONFIGURATION (MUST BE AT THE END)
