@@ -40,38 +40,47 @@ let s:bg_cache = expand('~/.vim_mode')
 
 function! SetDark()
     set background=dark
+    
+    " 1. Define the overrides BEFORE loading the colorscheme
+    augroup CustomDarkOverrides
+        autocmd!
+        autocmd ColorScheme monokaicharcoal 
+            \ hi Normal guibg=#000000 ctermbg=0 |
+            \ hi NonText guibg=#000000 ctermbg=0 |
+            \ hi LineNr guibg=#000000 ctermbg=0 |
+            \ hi SignColumn guibg=#000000 ctermbg=0 |
+            \ hi CursorLine guibg=#1c1c1c ctermbg=234 |
+            \ hi CursorLineNr guibg=#1c1c1c guifg=#f8f8f2
+    augroup END
+
     try 
         colorscheme monokaicharcoal
     catch
         colorscheme default
     endtry
 
-    " Your custom highlights for Monokai
+    " 2. Other highlights (moved inside or kept outside as needed)
     let g:cpp_operator_highlight = 1
     let g:cpp_constant_highlight = 1
-    highlight SignColumn ctermbg=235
-    highlight MatchParen ctermfg=Red ctermbg=Black guifg=Red guibg=Black
+    
+    highlight MatchParen ctermfg=Red ctermbg=Black guifg=Red guibg=#000000
     highlight StatusLine cterm=bold ctermfg=250 ctermbg=237
     highlight StatusLineNC cterm=NONE ctermfg=240 ctermbg=236
     highlight SpellBad cterm=underline
-    highlight CursorLineNr cterm=NONE
     
-    " Lightline theme for dark mode
+    " Lightline theme
     let g:lightline = {'colorscheme': 'wombat'}
     
     " Save preference
     call writefile(['dark'], s:bg_cache)
 endfunction
 
-" Point to the Homebrew Python 3 binary
-let g:python3_host_prog = '/opt/homebrew/bin/python3'
-
 function! SetLight()
     set background=light
     try
         colorscheme github
     catch
-        colorscheme default " Fallback if github theme is missing
+        colorscheme morning " Fallback if github theme is missing
     endtry
     
     " Lightline theme for light mode (optional, 'one' or 'papercolor' usually look good)
@@ -207,14 +216,23 @@ let g:leetcode_browser='brave'
 " ale
 set signcolumn=yes
 let g:ale_virtualtext_cursor = 'current'
-" " Disable whitespace warnings
-let g:ale_warn_about_trailing_whitespace = 0
-let g:ale_set_highlights=0
 let g:ale_disable_lsp = 1
+
 let g:ale_linters = {
-\   'java': ['mvn','checkstyle', 'cspell', 'eclipselsp', 'javac', 'javalsp', 'pmd'],
+\   'java': ['mvn', 'checkstyle', 'cspell', 'eclipselsp', 'javac', 'javalsp', 'pmd'],
 \   'rust': ['cargo', 'rls', 'clippy', 'cspell'], 
+\   'python': ['pyflakes'], 
 \}
+
+let g:ale_fixers = {
+\   'python': ['isort', 'black'],
+\   'rust': ['rustfmt'],
+\}
+let g:ale_fix_on_save = 1
+
+let g:ale_python_black_use_global = 1
+let g:ale_python_isort_use_global = 1
+let g:ale_python_pyflakes_use_global = 1
 
 " --- FZF Configuration ---
 set termguicolors
@@ -515,3 +533,14 @@ augroup END
 " --- GLOBAL LSP (Works across all languages if you have an LSP client) ---
 nnoremap <leader>ca :lua vim.lsp.buf.code_action()<cr>
 nnoremap <leader>cr :lua vim.lsp.buf.rename()<cr>
+
+" tab logic
+" H to go left (previous), L to go right (next)
+nnoremap H :tabprev<CR>
+nnoremap L :tabnext<CR>
+
+" Use 'tt' (tab-tab) to quickly open a new one
+nnoremap tt :tabnew<CR>
+
+" Use 'tx' to close a tab
+nnoremap tx :tabclose<CR>

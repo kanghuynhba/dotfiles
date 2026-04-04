@@ -129,6 +129,10 @@ top10() {
     history | awk "{print \$2}" | sort | uniq -c | sort -rn | head -10
 }
 
+hgrep() {
+    history | grep -i "$1"
+}
+
 weather() {
     curl "wttr.in/${1:-DaNang}?format=3"
 }

@@ -33,8 +33,23 @@ tp() {
     _tmux_switch "$selected" "$name"
 }
 
+# Manual Session Creator
+tnew() {
+    local name="$1"
+    # Fallback to current directory name if no name is provided
+    [[ -z "$name" ]] && name=$(basename "$PWD" | tr . _)
+    
+    # Use your internal engine to build the windows and switch
+    _tmux_switch "$PWD" "$name"
+}
+
+# Alias for quick access
+alias tn='tnew'
+
 tkill() {
     tmux kill-session -t "$(tmux display-message -p '#S')"
 }
 
 alias tls='tmux ls'
+alias ta='tmux a'
+
