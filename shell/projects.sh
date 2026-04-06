@@ -5,6 +5,35 @@
 
 PROJECT_PATH="$HOME/Work/Projects/projects"
 
+# ============================================================================
+# LANGUAGE-SPECIFIC PROJECT NAVIGATION
+# ============================================================================
+
+cppProject() {
+    cd "$PROJECT_PATH/cpp-projects/$1"
+    [ -n "$1" ] && tmuxInit "$1"
+}
+
+javaProject() {
+    cd "$PROJECT_PATH/java-projects/$1"
+    [ -n "$1" ] && tmuxInit "$1"
+}
+
+pyProject() {
+    cd "$PROJECT_PATH/py-projects/$1"
+    [ -n "$1" ] && tmuxInit "$1"
+}
+
+rustProject() {
+    cd "$PROJECT_PATH/rust-projects/$1"
+    [ -n "$1" ] && tmuxInit "$1"
+}
+
+swiftProject() {
+    cd "$PROJECT_PATH/swift-projects/$1"
+    [ -n "$1" ] && tmuxInit "$1"
+}
+
 # Smart Navigation: Works for any language
 # Usage: pproj cpp my-api
 pproj() {
