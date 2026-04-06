@@ -237,3 +237,60 @@ stats() {
     echo "Words : $(wc -w < "$1")"
     echo "Chars : $(wc -c < "$1")"
 }
+
+# ============================================================================
+# CODE LOGGING
+# ============================================================================
+ 
+# Dump all source code from a directory into a single readable log file.
+# Skips dependencies, build artifacts, binaries, and media by default.
+#
+# Usage:
+#   codelog                          # log current dir → ./code.log
+#   codelog src/                     # log a specific dir
+#   codelog src/ out.txt             # custom output filename
+#   codelog . out.txt vendor,dist    # also exclude vendor/ and dist/
+#
+# Default ignores: node_modules, venv, .venv, vendor, plugins, __pycache__,
+#   .git, build, target, dist, .idea, .vscode, *.min.js, *.min.css,
+#   *.lock, *.sum, binaries, images, fonts, archives
+codelog() {
+    local dir="${1:-.}"
+    local out="${2:-code.log}"
+    local extra_ignores="${3:-}"
+ 
+    local ignore_dirs=(
+        node_modules venv .venv vendor plugins __pycache__
+        .git build target dist .idea .vscode coverage .cache
+    )
+    local ignore_files=(
+        "*.min.js" "*.min.css"
+        "package-lock.json" "yarn.lock" "*.lock" "*.sum" "*.mod"
+        "*.png" "*.jpg" "*.jpeg" "*.gif" "*.svg" "*.ico" "*.webp"
+        "*.ttf" "*.woff" "*.woff2" "*.eot"
+        "*.zip" "*.tar" "*.gz" "*.rar"
+        "*.pdf" "*.bin" "*.exe" "*.o" "*.class" "*.pyc"
+        "code.log"
+    )
+ 
+    local ag_args=()
+    for d in "${ignore_dirs[@]}"; do
+        ag_args+=(--ignore-dir="$d")
+    done
+    for f in "${ignore_files[@]}"; do
+        ag_args+=(--ignore="$f")
+    done
+ 
+    # Extra ignores: comma-separated, e.g. "vendor,dist,lib"
+    if [ -n "$extra_ignores" ]; then
+        IFS=',' read -ra extras <<< "$extra_ignores"
+        for e in "${extras[@]}"; do
+            e="${e// /}"
+            ag_args+=(--ignore-dir="$e" --ignore="$e")
+        done
+    fi
+ 
+    echo "Logging '$dir' → '$out' ..."
+    ag --nocolor "${ag_args[@]}" . "$dir" > "$out"
+    echo "Done. $(wc -l < "$out") lines written to '$out'"
+}
