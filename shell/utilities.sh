@@ -152,7 +152,7 @@ weather() {
 
 # Quick notes. Usage: note [text]  (no args = show notes)
 note() {
-    local note_file="$HOME/Personal/Documents/quick-notes.md"
+    local note_file="$HOME/Work/Learning/Documentation/quick-notes.md"
     if [ -z "$1" ]; then
         cat "$note_file" 2>/dev/null || echo "No notes yet"
     else
