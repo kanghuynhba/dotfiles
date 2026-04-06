@@ -75,6 +75,7 @@ EOF
 alias mysql='mysql --default-character-set=utf8mb4 -u root -p'
 
 # Python virtual environments
+alias py='python3'
 alias venv='source venv/bin/activate'
 alias mkvenv='python3 -m venv venv'
 
