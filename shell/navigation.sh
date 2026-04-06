@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Navigation Aliases - Directory Shortcuts
+# navigation.sh - Directory Shortcuts
 # ============================================================================
 
 # ============================================================================
@@ -15,16 +15,16 @@ alias .....='cd ../../../..'
 alias -- -='cd -'
 
 # ============================================================================
-# WORK DIRECTORIES
+# WORK
 # ============================================================================
 
 alias work='cd ~/Work'
 alias career='cd ~/Work/Career'
 alias learn='cd ~/Work/Learning'
 alias docs='cd ~/Work/Learning/Documentation'
-
-# Projects
 alias projects='cd ~/Work/Projects'
+
+# LeetCode
 alias lc='cd ~/Work/Projects/LeetCode/patterns/src'
 alias leetcode='cd ~/Work/Projects/LeetCode/patterns/src && leetweb'
 
@@ -44,15 +44,16 @@ alias personal='cd ~/Personal'
 alias books='cd ~/Personal/Media/Books'
 
 # ============================================================================
-# CONFIGURATION
+# CONFIG
 # ============================================================================
 
 alias config='cd ~/Config'
 alias dotfiles='cd ~/Config/dotfiles'
+alias shell='cd ~/Config/dotfiles/shell'
 
 # ============================================================================
 # WORKSPACE
 # ============================================================================
 
 alias workspace='cd ~/Workspace'
-alias test='cd ~/Workspace/tests'
+alias tests='cd ~/Workspace/tests'

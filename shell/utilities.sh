@@ -1,87 +1,92 @@
 #!/bin/bash
 # ============================================================================
-# Utility Functions - General Purpose Helpers
+# utilities.sh - General Purpose Helpers
 # ============================================================================
 
 # ============================================================================
 # DIRECTORY OPERATIONS
 # ============================================================================
 
+# Go up N directories. Usage: up [n]
 up() {
     local count=${1:-1}
-    
     if ! [[ $count =~ ^[0-9]+$ ]]; then
         echo "Error: Argument must be a number"
         return 1
     fi
-
     local path=""
-    for ((i=0; i<count; i++)); do
+    for ((i = 0; i < count; i++)); do
         path="../$path"
     done
-    
-    cd $path
+    cd "$path" || return 1
 }
 
+# Make dir and cd into it. Usage: mcd <name>
 mcd() {
     if [ -z "$1" ]; then
         echo "Error: Directory name required"
         return 1
     fi
-    
-    mkdir -p "$1" && cd "$1"
+    mkdir -p "$1" && cd "$1" || return 1
     echo "Created and entered: $1"
 }
 
+# cd to the directory of a given file. Usage: jump <file>
 jump() {
     if [ -z "$1" ]; then
         echo "Error: File path required"
         return 1
     fi
-    
-    cd "$(dirname "$1")"
+    cd "$(dirname "$1")" || return 1
 }
 
 # ============================================================================
 # SEARCH OPERATIONS
 # ============================================================================
 
+# Find files by name (case-insensitive). Usage: findfile <pattern>
 findfile() {
+    if [ -z "$1" ]; then
+        echo "Usage: findfile <pattern>"
+        return 1
+    fi
     find . -iname "*$1*" 2>/dev/null
 }
 
+# Search text recursively. Usage: findtext <pattern> [path]
 findtext() {
-    grep -r -i "$1" . 2>/dev/null
+    if [ -z "$1" ]; then
+        echo "Usage: findtext <pattern> [path]"
+        return 1
+    fi
+    grep -r -i "$1" "${2:-.}" 2>/dev/null
 }
 
 # ============================================================================
 # ARCHIVE EXTRACTION
 # ============================================================================
 
+# Extract any archive format. Usage: extract <file>
 extract() {
     if [ -z "$1" ]; then
         echo "Usage: extract <archive>"
         return 1
     fi
-    
     if [ ! -f "$1" ]; then
-        echo "Error: File not found"
+        echo "Error: '$1' not found"
         return 1
     fi
-    
     case "$1" in
-        *.tar.bz2) tar xjf "$1" ;;
-        *.tar.gz) tar xzf "$1" ;;
-        *.bz2) bunzip2 "$1" ;;
-        *.rar) unrar x "$1" ;;
-        *.gz) gunzip "$1" ;;
-        *.tar) tar xf "$1" ;;
-        *.tbz2) tar xjf "$1" ;;
-        *.tgz) tar xzf "$1" ;;
-        *.zip) unzip "$1" ;;
-        *.Z) uncompress "$1" ;;
-        *.7z) 7z x "$1" ;;
-        *) echo "Unknown archive format" ;;
+        *.tar.bz2 | *.tbz2) tar xjf "$1" ;;
+        *.tar.gz  | *.tgz)  tar xzf "$1" ;;
+        *.tar)               tar xf  "$1" ;;
+        *.bz2)               bunzip2     "$1" ;;
+        *.gz)                gunzip      "$1" ;;
+        *.rar)               unrar x     "$1" ;;
+        *.zip)               unzip       "$1" ;;
+        *.Z)                 uncompress  "$1" ;;
+        *.7z)                7z x        "$1" ;;
+        *) echo "Unknown archive format: $1"; return 1 ;;
     esac
 }
 
@@ -89,35 +94,36 @@ extract() {
 # CLIPBOARD UTILITIES
 # ============================================================================
 
-# Detect OS and set copy/paste aliases
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
     alias copy='pbcopy'
     alias paste='pbpaste'
 elif grep -q Microsoft /proc/version 2>/dev/null; then
-    # WSL (Windows Subsystem for Linux)
     alias copy='clip.exe'
     alias paste='powershell.exe -command "Get-Clipboard"'
 else
-    # Linux (X11/Wayland)
-    if command -v xclip &> /dev/null; then
+    if command -v xclip &>/dev/null; then
         alias copy='xclip -selection clipboard'
         alias paste='xclip -selection clipboard -o'
-    elif command -v wl-copy &> /dev/null; then
+    elif command -v wl-copy &>/dev/null; then
         alias copy='wl-copy'
         alias paste='wl-paste'
     fi
 fi
 
+# Copy current directory path to clipboard
 alias cpwd='pwd | copy && echo "Copied: $(pwd)"'
 
+# Copy a file's contents to clipboard. Usage: copyfile <file>
 copyfile() {
     if [ -z "$1" ]; then
         echo "Error: File required"
         return 1
     fi
-    
-    cat "$1" | copy
+    if [ ! -f "$1" ]; then
+        echo "Error: '$1' not found"
+        return 1
+    fi
+    copy < "$1"
     echo "Copied contents of: $1"
 }
 
@@ -125,45 +131,50 @@ copyfile() {
 # PRODUCTIVITY HELPERS
 # ============================================================================
 
+# Show top 10 most used shell commands
 top10() {
-    history | awk "{print \$2}" | sort | uniq -c | sort -rn | head -10
+    history | awk '{print $2}' | sort | uniq -c | sort -rn | head -10
 }
 
+# Search shell history. Usage: hgrep <pattern>
 hgrep() {
+    if [ -z "$1" ]; then
+        echo "Usage: hgrep <pattern>"
+        return 1
+    fi
     history | grep -i "$1"
 }
 
+# Get weather. Usage: weather [city]
 weather() {
-    curl "wttr.in/${1:-DaNang}?format=3"
+    curl -s "wttr.in/${1:-DaNang}?format=3"
 }
 
+# Quick notes. Usage: note [text]  (no args = show notes)
 note() {
     local note_file="$HOME/Personal/Documents/quick-notes.md"
-    
     if [ -z "$1" ]; then
-        # Show notes
         cat "$note_file" 2>/dev/null || echo "No notes yet"
     else
-        # Add note with timestamp
         echo "$(date '+%Y-%m-%d %H:%M') - $*" >> "$note_file"
         echo "Note added"
     fi
 }
 
+# Countdown timer. Usage: timer [seconds]
 timer() {
     local seconds=${1:-60}
-    echo "Timer set for $seconds seconds"
-    sleep $seconds
+    echo "Timer set for ${seconds}s..."
+    sleep "$seconds"
     echo "Time's up!"
-    # Play sound if available
-    paplay /usr/share/sounds/freedesktop/stereo/complete.oga 2>/dev/null || \
-    echo -e "\a"
+    paplay /usr/share/sounds/freedesktop/stereo/complete.oga 2>/dev/null || echo -e "\a"
 }
 
-# ==========================================
-# Network Utilities
-# ==========================================
-# Get SSH Connection Info
+# ============================================================================
+# NETWORK UTILITIES
+# ============================================================================
+
+# Show SSH connection info for this machine
 ssh_info() {
     local current_user="$USER"
     local current_ip=""
@@ -179,12 +190,50 @@ ssh_info() {
     echo "---------------------------------------"
     if [ -z "$current_ip" ]; then
         echo "  Could not find a local IP address."
-        echo "   Are you connected to a network?"
+        echo "  Are you connected to a network?"
     else
-        echo "To connect TO this machine, type this on the other one:"
+        echo "  To connect TO this machine, run on the other:"
         echo ""
-        echo "   ssh ${current_user}@${current_ip}"
+        echo "    ssh ${current_user}@${current_ip}"
         echo ""
     fi
     echo "---------------------------------------"
+}
+
+# Show all open listening ports
+alias ports='ss -tulanp 2>/dev/null || netstat -tulanp'
+
+# Quick HTTP server in current directory. Usage: serve [port]
+serve() {
+    local port="${1:-8080}"
+    echo "Serving $(pwd) on http://localhost:${port}"
+    python3 -m http.server "$port"
+}
+
+# ============================================================================
+# FILE UTILITIES
+# ============================================================================
+
+# Show disk usage of items in current dir, sorted
+alias usage='du -sh -- * | sort -h'
+
+# Backup a file with a timestamp. Usage: bak <file>
+bak() {
+    if [ -z "$1" ]; then
+        echo "Usage: bak <file>"
+        return 1
+    fi
+    cp "$1" "${1}.bak.$(date +%Y%m%d_%H%M%S)"
+    echo "Backup created: ${1}.bak.$(date +%Y%m%d_%H%M%S)"
+}
+
+# Count lines/words/chars. Usage: stats [file]
+stats() {
+    if [ -z "$1" ]; then
+        echo "Usage: stats <file>"
+        return 1
+    fi
+    echo "Lines : $(wc -l < "$1")"
+    echo "Words : $(wc -w < "$1")"
+    echo "Chars : $(wc -c < "$1")"
 }

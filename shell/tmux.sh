@@ -1,55 +1,79 @@
 #!/bin/bash
 # ============================================================================
-# tmux.sh - The Session Engine
+# tmux.sh - Session Management
 # ============================================================================
 
-# Internal engine used by other scripts
+# ============================================================================
+# INTERNAL ENGINE
+# ============================================================================
+
+# Create or attach to a tmux session with standard windows (code, exec, git)
+# Usage: _tmux_switch <directory> <session-name>
 _tmux_switch() {
     local folder="$1"
     local name="$2"
 
     if ! tmux has-session -t "$name" 2>/dev/null; then
         tmux new-session -d -s "$name" -c "$folder" -n "code"
-        tmux new-window -t "$name" -c "$folder" -n "exec"
-        tmux new-window -t "$name" -c "$folder" -n "git"
-        tmux send-keys -t "$name:code" "nvim ." C-m
+        tmux new-window  -t "$name"    -c "$folder" -n "exec"
+        tmux new-window  -t "$name"    -c "$folder" -n "git"
+        tmux send-keys   -t "$name:code" "nvim ." C-m
     fi
 
-    [[ -z "$TMUX" ]] && tmux attach -t "$name" || tmux switch-client -t "$name"
+    if [[ -z "$TMUX" ]]; then
+        tmux attach -t "$name"
+    else
+        tmux switch-client -t "$name"
+    fi
 }
 
-# The Fuzzy Teleporter
+# ============================================================================
+# SESSION COMMANDS
+# ============================================================================
+
+# Fuzzy-find and jump to a project session
 tp() {
-    # Use $HOME for reliability
     local search_dir="$HOME/Work/Projects/projects"
-    
-    # Ensure fzf is in the PATH for the popup
     export PATH="$PATH:$HOME/Config/dotfiles/zsh/plugins/fzf/bin"
 
-    local selected=$(find "$search_dir" -mindepth 2 -maxdepth 2 -type d | fzf)
+    local selected
+    selected=$(find "$search_dir" -mindepth 2 -maxdepth 2 -type d | fzf)
     [[ -z "$selected" ]] && return
-    
-    local name=$(basename "$selected" | tr . _)
+
+    local name
+    name=$(basename "$selected" | tr . _)
     _tmux_switch "$selected" "$name"
 }
 
-# Manual Session Creator
+# Create or attach to a session for the current directory
+# Usage: tnew [session-name]
 tnew() {
-    local name="$1"
-    # Fallback to current directory name if no name is provided
-    [[ -z "$name" ]] && name=$(basename "$PWD" | tr . _)
-    
-    # Use your internal engine to build the windows and switch
+    local name="${1:-$(basename "$PWD" | tr . _)}"
     _tmux_switch "$PWD" "$name"
 }
-
-# Alias for quick access
 alias tn='tnew'
 
+# Kill the current tmux session
 tkill() {
-    tmux kill-session -t "$(tmux display-message -p '#S')"
+    local session
+    session=$(tmux display-message -p '#S')
+    tmux kill-session -t "$session"
+    echo "Session '$session' killed."
 }
+
+# Rename current session. Usage: trename <new-name>
+trename() {
+    if [ -z "$1" ]; then
+        echo "Usage: trename <new-name>"
+        return 1
+    fi
+    tmux rename-session "$1"
+}
+
+# ============================================================================
+# ALIASES
+# ============================================================================
 
 alias tls='tmux ls'
 alias ta='tmux a'
-
+alias tks='tmux kill-server'

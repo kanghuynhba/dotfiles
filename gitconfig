@@ -57,7 +57,7 @@
 	zip = ! "zip() { git archive --format zip --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; zip"
 
 [init]
-	defaultBranch = master
+	defaultBranch = main
 
 [diff]
 	mnemonicPrefix = true
@@ -122,3 +122,9 @@
 	path = ~/.gitconfig_local
 [coderabbit]
 	machineId = cli/dacd0e1608b342489e0db231d08b5323
+[column]
+	ui = auto
+
+[rerere]
+	enabled = true
+	autoupdate = true
