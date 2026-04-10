@@ -234,7 +234,7 @@ let g:ale_python_black_use_global = 1
 let g:ale_python_isort_use_global = 1
 let g:ale_python_pyflakes_use_global = 1
 
-" --- FZF Configuration ---
+" FZF Configuration
 set termguicolors
 set rtp+=~/Config/dotfiles/zsh/plugins/fzf
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7, 'border': 'rounded' } }
@@ -250,6 +250,17 @@ nnoremap <leader>h :History<CR>
 nnoremap <leader>g :Rg<Space>
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
+let g:fzf_action = {
+  \ 'enter': 'tabedit',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Jupytext Configuration 
+let g:jupytext_fmt = 'py:percent'
+
+" Optional: Highlight the cell separators (# %%)
+highlight JupyterCellSeparator guifg=#50fa7b gui=bold
+match JupyterCellSeparator /^# %%.*/
 
 "  y d p P   --  Quick copy paste into system clipboard
 nmap <Leader>y "+y
@@ -536,8 +547,8 @@ nnoremap <leader>cr :lua vim.lsp.buf.rename()<cr>
 
 " tab logic
 " H to go left (previous), L to go right (next)
-nnoremap H :tabprev<CR>
-nnoremap L :tabnext<CR>
+nnoremap J :tabprev<CR>
+nnoremap K :tabnext<CR>
 
 " Use 'tt' (tab-tab) to quickly open a new one
 nnoremap tt :tabnew<CR>
