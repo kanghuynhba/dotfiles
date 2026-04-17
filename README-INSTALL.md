@@ -4,7 +4,7 @@
 
 ```bash
 # 0. Set up SSH key first (required for git clone)
-ssh-keygen -t ed25519 -C "kanghuynhba@gmail.com"
+ssh-keygen -t ed25519 -C "your@email.com"
 cat ~/.ssh/id_ed25519.pub
 # Add the public key to GitHub: https://github.com/settings/keys
 
