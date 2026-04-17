@@ -89,6 +89,10 @@ alias rmvenv='deactivate 2>/dev/null; rm -rf venv && echo "venv removed"'
 
 envpy() {
     local name="${1:-venv}"
+    if [[ ! "$name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo "Error: Invalid venv name '$name'. Use only alphanumeric, dash, or underscore."
+        return 1
+    fi
     if [ -d "$name" ]; then
         echo "venv '$name' already exists"
         return 1

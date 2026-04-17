@@ -7,9 +7,6 @@
 [submodule ".vim/pack/vendor/start/auto-pairs"]
 	path = vim/pack/vendor/start/auto-pairs
 	url =  https://github.com/jiangmiao/auto-pairs.git
-[submodule "vim/pack/vendor/start/ctrlp.vim"]
-	path = vim/pack/vendor/start/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
 [submodule "vim/pack/vendor/start/java-syntax.vim"]
 	path = vim/pack/vendor/start/java-syntax.vim
 	url = https://github.com/uiiaoo/java-syntax.vim.git
@@ -30,10 +27,7 @@
 	url = https://github.com/seebi/dircolors-solarized.git  
 [submodule "zsh/plugins/zsh-completions"]
 	path = zsh/plugins/zsh-completions
-	url = https://github.com/zsh-users/zsh-completions.git  
-[submodule "zsh/plugins/zsh-syntax-highlighting"]
-	path = zsh/plugins/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+	url = https://github.com/zsh-users/zsh-completions.git
 [submodule "zsh/plugins/zsh-syntax-highlighting"]
 	path = zsh/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -46,16 +40,16 @@
 [submodule "vim/pack/vendor/start/coc.nvim"]
 	path = vim/pack/vendor/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim.git
-[submodule "vim/pack/vendor/start/vim/pack/vendor/start/vim-markdown.git"]
+[submodule "vim/pack/vendor/start/vim-markdown"]
 	path = vim/pack/vendor/start/vim-markdown
 	url = https://github.com/preservim/vim-markdown.git
-[submodule "vim/pack/vendor/start/vim/pack/vendor/start/tabular"]
+[submodule "vim/pack/vendor/start/tabular"]
 	path = vim/pack/vendor/start/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule "vim/pack/vendor/start/vim/pack/vendor/start/github-nvim-theme"]
+[submodule "vim/pack/vendor/start/github-nvim-theme"]
 	path = vim/pack/vendor/start/github-nvim-theme
 	url = https://github.com/projekt0n/github-nvim-theme.git
-[submodule "vim/pack/vendor/start/vim/pack/vendor/start/rust.vim"]
+[submodule "vim/pack/vendor/start/rust.vim"]
 	path = vim/pack/vendor/start/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
 [submodule "vim/pack/vendor/start/fzf.vim"]

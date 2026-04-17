@@ -20,4 +20,4 @@ row_limit = 1000
 
 # Pager settings
 # Using 'less -SRF' keeps the headers at the top and allows horizontal scrolling
-pager = less -SRF
+pager = less -SRFX --no-lessopen

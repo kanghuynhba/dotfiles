@@ -22,6 +22,13 @@ _cloud_is_mounted() {
     fi
 }
 
+_cloud_guard() {
+    if ! _cloud_is_mounted "$GDRIVE_MOUNT_POINT"; then
+        echo "Error: GDrive is not mounted. Run 'gdrive' first."
+        return 1
+    fi
+}
+
 # ============================================================================
 # GOOGLE DRIVE MOUNT/UNMOUNT
 # ============================================================================
@@ -270,6 +277,8 @@ bproj() {
         echo "Usage: bproj <project-name>"
         return 1
     fi
+    
+    _cloud_guard || return 1
     
     local project_name="$1"
     echo "Backing up project: $project_name"

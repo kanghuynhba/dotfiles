@@ -15,10 +15,13 @@ git submodule update --init --recursive "${DOTBOT_DIR}"
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
 # Change default shell to zsh if it isn't already
-if [ "$SHELL" != "/bin/zsh" ]; then
-    if command -v zsh >/dev/null 2>&1; then
-        chsh -s "$(command -v zsh)" || echo "Warning: Unable to change login shell automatically."
+# Using full paths to prevent PATH hijacking
+if [ "$SHELL" != "/bin/zsh" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
+    if [ -x "/bin/zsh" ]; then
+        chsh -s "/bin/zsh" || echo "Warning: Unable to change login shell automatically."
+    elif [ -x "/usr/bin/zsh" ]; then
+        chsh -s "/usr/bin/zsh" || echo "Warning: Unable to change login shell automatically."
     else
-        echo "Skipping login shell change because zsh is not installed."
+        echo "Skipping login shell change because zsh is not found."
     fi
 fi

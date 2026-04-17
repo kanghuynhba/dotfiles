@@ -261,19 +261,20 @@ let g:fzf_action = {
 " <leader>to       - Close all other tabs, keep only the current tab
 
 function! CloseTabsToLeft()
-    let l:current = tabpagenr()
-    let l:first = 1
-    while l:first < l:current
-        exec l:first . 'tabclose'
+    let l:count = tabpagenr() - 1
+    while l:count > 0
+        exec '1tabclose'
+        let l:count = l:count - 1
     endwhile
 endfunction
 
 function! CloseTabsToRight()
     let l:current = tabpagenr()
     let l:last = tabpagenr('$')
-    while l:current < l:last
+    let l:count = l:last - l:current
+    while l:count > 0
         exec l:last . 'tabclose'
-        let l:last = l:last - 1
+        let l:count = l:count - 1
     endwhile
 endfunction
 
