@@ -32,6 +32,7 @@ alias bashConfig="vim $CONFIG_PATH/bashrc"
 alias zshConfig="vim $CONFIG_PATH/zshrc"
 alias tmuxConfig="vim $CONFIG_PATH/tmux.conf"
 alias gitConfig="vim $CONFIG_PATH/gitconfig"
+alias myclirc='vim ~/.myclirc'
 
 # ============================================================================
 # RELOAD
@@ -81,10 +82,21 @@ EOF
 
 # Python
 alias py='python3'
-alias pip='pip3'
-alias venv='source venv/bin/activate'
-alias mkvenv='python3 -m venv venv'
+alias pip='uv pip'
+alias venv='source .venv/bin/activate'
+alias mkvenv='uv venv'
 alias rmvenv='deactivate 2>/dev/null; rm -rf venv && echo "venv removed"'
+
+envpy() {
+    local name="${1:-venv}"
+    if [ -d "$name" ]; then
+        echo "venv '$name' already exists"
+        return 1
+    fi
+    uv venv "$name"
+    source "$name/bin/activate"
+    uv pip install pytest ruff mypy
+}
 
 # Node
 alias ni='npm install'
@@ -93,7 +105,7 @@ alias nrd='npm run dev'
 alias nrb='npm run build'
 
 # MySQL
-alias mysql='mysql --default-character-set=utf8mb4 -u root -p'
+alias mysql='mycli -u root'
 
 # Writing tools
 alias writegood='write-good'

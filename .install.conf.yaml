@@ -8,6 +8,7 @@
 - link:
     ~/.agignore:
     ~/.aria2/aria2.conf:
+    ~/.myclirc:
     ~/.axelrc:
     ~/.bash:
     ~/.bash_profile:

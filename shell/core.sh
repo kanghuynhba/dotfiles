@@ -6,6 +6,20 @@
 # Vi keybindings in the shell
 set -o vi
 
+# Provide a portable "open" command for non-macOS systems
+if ! command -v open >/dev/null 2>&1; then
+    open() {
+        if command -v xdg-open >/dev/null 2>&1; then
+            xdg-open "$@" >/dev/null 2>&1 &
+        elif command -v sensible-browser >/dev/null 2>&1; then
+            sensible-browser "$@" >/dev/null 2>&1 &
+        else
+            echo "open: no suitable opener found" >&2
+            return 1
+        fi
+    }
+fi
+
 # ============================================================================
 # MODERN CLI TOOLS
 # ============================================================================

@@ -1,0 +1,23 @@
+[main]
+# The core UI
+smart_completion = True
+multi_line = True
+key_bindings = vi
+editor = nvim
+
+# Visuals
+# psql looks great in a transparent tmux pane
+table_format = psql 
+syntax_style = monokai
+# Shows the DB name and host in your tmux status line/prompt
+prompt = '\u@\h:\d> '
+
+# Safety & Utilities
+timing = True
+destructive_warning = True
+# Limits output so you don't accidentally dump 1 million rows into your scrollback
+row_limit = 1000 
+
+# Pager settings
+# Using 'less -SRF' keeps the headers at the top and allows horizontal scrolling
+pager = less -SRF

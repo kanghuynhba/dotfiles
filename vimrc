@@ -255,6 +255,43 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
+" Tab Management
+" CloseTabsToLeft  - Close all tabs to the left of the current tab
+" CloseTabsToRight - Close all tabs to the right of the current tab
+" <leader>to       - Close all other tabs, keep only the current tab
+
+function! CloseTabsToLeft()
+    let l:current = tabpagenr()
+    let l:first = 1
+    while l:first < l:current
+        exec l:first . 'tabclose'
+    endwhile
+endfunction
+
+function! CloseTabsToRight()
+    let l:current = tabpagenr()
+    let l:last = tabpagenr('$')
+    while l:current < l:last
+        exec l:last . 'tabclose'
+        let l:last = l:last - 1
+    endwhile
+endfunction
+
+nnoremap <leader>tl :call CloseTabsToLeft()<CR>
+nnoremap <leader>tr :call CloseTabsToRight()<CR>
+nnoremap <leader>to :tabonly<CR>
+
+" Tab navigation
+" H to go left (previous), L to go right (next)
+nnoremap J :tabprev<CR>
+nnoremap K :tabnext<CR>
+
+" Use 'tt' (tab-tab) to quickly open a new one
+nnoremap tt :tabnew<CR>
+
+" Use 'tx' to close a tab
+nnoremap tx :tabclose<CR>
+
 " Jupytext Configuration 
 let g:jupytext_fmt = 'py:percent'
 
@@ -544,14 +581,3 @@ augroup END
 " --- GLOBAL LSP (Works across all languages if you have an LSP client) ---
 nnoremap <leader>ca :lua vim.lsp.buf.code_action()<cr>
 nnoremap <leader>cr :lua vim.lsp.buf.rename()<cr>
-
-" tab logic
-" H to go left (previous), L to go right (next)
-nnoremap J :tabprev<CR>
-nnoremap K :tabnext<CR>
-
-" Use 'tt' (tab-tab) to quickly open a new one
-nnoremap tt :tabnew<CR>
-
-" Use 'tx' to close a tab
-nnoremap tx :tabclose<CR>

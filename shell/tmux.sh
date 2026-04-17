@@ -12,14 +12,22 @@
 _tmux_switch() {
     local folder="$1"
     local name="$2"
-
-    if ! tmux has-session -t "$name" 2>/dev/null; then
-        tmux new-session -d -s "$name" -c "$folder" -n "code"
-        tmux new-window  -t "$name"    -c "$folder" -n "exec"
-        tmux new-window  -t "$name"    -c "$folder" -n "git"
-        tmux send-keys   -t "$name:code" "nvim ." C-m
+    if [[ ! -d "$folder" ]]; then
+        echo "_tmux_switch: directory not found: $folder" >&2
+        return 1
     fi
-
+    if ! tmux has-session -t "$name" 2>/dev/null; then
+        tmux new-session -d -s "$name" -c "$folder" -n "ai"
+        tmux new-window  -t "$name"    -c "$folder" -n "git"
+        tmux new-window  -t "$name"    -c "$folder" -n "exec"
+        tmux new-window  -t "$name"    -c "$folder" -n "test"
+        tmux new-window  -t "$name"    -c "$folder" -n "code"
+        tmux send-keys -t "$name:code" "vi ." C-m
+        if command -v opencode >/dev/null 2>&1; then
+            tmux send-keys -t "$name:ai" "opencode" C-m
+        fi
+    fi
+    tmux select-window -t "$name:ai"   # ← always runs, new or existing session
     if [[ -z "$TMUX" ]]; then
         tmux attach -t "$name"
     else

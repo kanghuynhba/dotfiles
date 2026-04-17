@@ -8,6 +8,20 @@ EXCLUDE_FILE="$HOME/rclone-exclude.txt"
 GDRIVE_MOUNT_POINT="$HOME/gdrive"
 GDRIVE_LOG_FILE="$HOME/gdrive_mount.log"
 
+_cloud_is_mounted() {
+    local mount_path="$1"
+    if command -v mountpoint >/dev/null 2>&1; then
+        mountpoint -q "$mount_path"
+        return $?
+    elif command -v findmnt >/dev/null 2>&1; then
+        findmnt "$mount_path" >/dev/null 2>&1
+        return $?
+    else
+        mount | grep -q "on $mount_path "
+        return $?
+    fi
+}
+
 # ============================================================================
 # GOOGLE DRIVE MOUNT/UNMOUNT
 # ============================================================================
@@ -20,7 +34,7 @@ gdrive() {
     fi
 
     # Check if already mounted
-    if mountpoint -q "$GDRIVE_MOUNT_POINT"; then
+    if _cloud_is_mounted "$GDRIVE_MOUNT_POINT"; then
         echo "GDrive is already mounted at $GDRIVE_MOUNT_POINT"
         df -h "$GDRIVE_MOUNT_POINT" | tail -1
         return 0
@@ -42,7 +56,7 @@ gdrive() {
     sleep 2
     
     # Verify mount
-    if mountpoint -q "$GDRIVE_MOUNT_POINT"; then
+    if _cloud_is_mounted "$GDRIVE_MOUNT_POINT"; then
         echo "GDrive mounted successfully"
         df -h "$GDRIVE_MOUNT_POINT" | tail -1
     else
@@ -53,7 +67,7 @@ gdrive() {
 }
 
 ungdrive() {
-    if ! mountpoint -q "$GDRIVE_MOUNT_POINT"; then
+    if ! _cloud_is_mounted "$GDRIVE_MOUNT_POINT"; then
         echo "GDrive is not currently mounted"
         return 1
     fi
@@ -66,6 +80,8 @@ ungdrive() {
     # Try umount on macOS
     elif command -v umount &> /dev/null; then
         umount "$GDRIVE_MOUNT_POINT"
+    elif command -v diskutil &> /dev/null; then
+        diskutil unmount "$GDRIVE_MOUNT_POINT"
     else
         echo "Error: No unmount utility found"
         return 1
@@ -80,7 +96,7 @@ ungdrive() {
 }
 
 gstatus() {
-    if mountpoint -q "$GDRIVE_MOUNT_POINT"; then
+    if _cloud_is_mounted "$GDRIVE_MOUNT_POINT"; then
         echo "Status: GDrive is mounted"
         echo "Mount point: $GDRIVE_MOUNT_POINT"
         df -h "$GDRIVE_MOUNT_POINT" | tail -1
@@ -230,10 +246,10 @@ pull-all() {
 # SELECTIVE PROJECT OPERATIONS
 # ============================================================================
 
-pproj() {
+cloud_pproj() {
     if [ -z "$1" ]; then
         echo "Error: Project folder name required"
-        echo "Usage: pproj <project-name>"
+        echo "Usage: pullproj <project-name>"
         return 1
     fi
     
@@ -245,6 +261,8 @@ pproj() {
         --progress \
         --log-level INFO
 }
+
+alias pullproj='cloud_pproj'
 
 bproj() {
     if [ -z "$1" ]; then
@@ -349,7 +367,7 @@ Pull (Cloud -> Local):
   pull-all            Pull all from OneDrive
 
 Project Operations:
-  pproj <name>        Pull specific project
+  pullproj <name>     Pull specific project
   bproj <name>        Backup specific project
 
 Cloud Sync:
@@ -369,7 +387,7 @@ Examples:
   gdrive                          # Mount Google Drive
   backup-all                      # Backup everything
   cloud-sync                      # Full cloud sync
-  pproj my-project                # Pull specific project
+  pullproj my-project             # Pull specific project
   cloud-list onedrive Backups     # List OneDrive backups
 EOF
 }
