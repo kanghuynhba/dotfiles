@@ -4,7 +4,7 @@
 # ============================================================================
 
 # Configuration
-EXCLUDE_FILE="$HOME/rclone-exclude.txt"
+EXCLUDE_FILE="$HOME/.rclone-exclude.txt"
 GDRIVE_MOUNT_POINT="$HOME/gdrive"
 GDRIVE_LOG_FILE="$HOME/gdrive_mount.log"
 
