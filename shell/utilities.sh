@@ -255,10 +255,19 @@ stats() {
 #   .git, build, target, dist, .idea, .vscode, *.min.js, *.min.css,
 #   *.lock, *.sum, binaries, images, fonts, archives
 codelog() {
+    local copy_to_clipboard=false
+    
+    # 1. Parse for -c flag
+    if [[ "$1" == "-c" ]]; then
+        copy_to_clipboard=true
+        shift # Remove -c from arguments
+    fi
+
     local dir="${1:-.}"
     local out="${2:-code.log}"
     local extra_ignores="${3:-}"
- 
+
+    # Default ignores
     local ignore_dirs=(
         node_modules venv .venv vendor plugins __pycache__
         .git build target dist .idea .vscode coverage .cache
@@ -270,18 +279,13 @@ codelog() {
         "*.ttf" "*.woff" "*.woff2" "*.eot"
         "*.zip" "*.tar" "*.gz" "*.rar"
         "*.pdf" "*.bin" "*.exe" "*.o" "*.class" "*.pyc"
-        "code.log"
+        "code.log" "git.log"
     )
- 
+
     local ag_args=()
-    for d in "${ignore_dirs[@]}"; do
-        ag_args+=(--ignore-dir="$d")
-    done
-    for f in "${ignore_files[@]}"; do
-        ag_args+=(--ignore="$f")
-    done
- 
-    # Extra ignores: comma-separated, e.g. "vendor,dist,lib"
+    for d in "${ignore_dirs[@]}"; do ag_args+=(--ignore-dir="$d"); done
+    for f in "${ignore_files[@]}"; do ag_args+=(--ignore="$f"); done
+
     if [ -n "$extra_ignores" ]; then
         IFS=',' read -ra extras <<< "$extra_ignores"
         for e in "${extras[@]}"; do
@@ -289,8 +293,15 @@ codelog() {
             ag_args+=(--ignore-dir="$e" --ignore="$e")
         done
     fi
- 
-    echo "Logging '$dir' → '$out' ..."
-    ag --nocolor "${ag_args[@]}" . "$dir" > "$out"
-    echo "Done. $(wc -l < "$out") lines written to '$out'"
+
+    # 2. Execution logic
+    if [ "$copy_to_clipboard" = true ]; then
+        echo "Logging '$dir' to clipboard..."
+        ag --nocolor "${ag_args[@]}" . "$dir" | pbcopy
+        echo "Done. Context copied to clipboard."
+    else
+        echo "Logging '$dir' → '$out' ..."
+        ag --nocolor "${ag_args[@]}" . "$dir" > "$out"
+        echo "Done. $(wc -l < "$out") lines written to '$out'"
+    fi
 }

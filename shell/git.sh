@@ -185,3 +185,51 @@ gundo() {
     git reset --soft HEAD~1
     echo "Last commit undone. Changes are staged."
 }
+
+# gitlog: Comprehensive feature capture for AI review
+gitlog() {
+    local base="main"
+    local copy_to_clipboard=false
+    
+    # 1. Parse Arguments
+    while [[ "$#" -gt 0 ]]; do
+        case $1 in
+            -c|--copy) copy_to_clipboard=true ;;
+            -b|--base) base="$2"; shift ;;
+            *) base="$1" ;; 
+        esac
+        shift
+    done
+
+    # 2. Metadata
+    local branch_name=$(git rev-parse --abbrev-ref HEAD)
+    
+    # Generate the log content
+    {
+        echo "## FEATURE LOG: $branch_name (vs $base)"
+        echo "Date: $(date '+%Y-%m-%d %H:%M')"
+        echo "--------------------------------"
+        echo ""
+        echo "### FILES CHANGED SINCE $base"
+        git diff --stat "$base"
+        echo ""
+        echo "### COMMIT HISTORY ON THIS BRANCH"
+        git log "$base"..HEAD --oneline
+        echo ""
+        echo "### DETAILED CODE CHANGES"
+        echo ""
+        # -U5 for high-context AI review
+        git diff -U5 "$base"
+    } > git.log
+
+    # 3. Output Logic
+    if [ "$copy_to_clipboard" = true ]; then
+        cat git.log | pbcopy
+        # Remove the file immediately so it doesn't clutter your workspace
+        rm -rf git.log
+        echo ">> Feature context copied to clipboard (git.log cleaned up)."
+    else
+        cat git.log
+        echo ">> Log saved to git.log"
+    fi
+}
