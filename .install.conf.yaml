@@ -29,6 +29,7 @@
     ~/.ipython/profile_default/startup/disable_warnings.py: ipython/disable_warnings.py
     ~/.irssi:
     ~/.pythonrc:
+    ~/.rclone-exclude.txt:
     ~/.rtorrent.rc:
     ~/.screenrc:
     ~/.shell:

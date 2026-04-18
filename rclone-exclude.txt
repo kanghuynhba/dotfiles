@@ -1,0 +1,72 @@
+# ============================================================================
+# rclone-exclude.txt - Files to exclude from cloud sync (OneDrive, Google Drive)
+# ============================================================================
+# This file should be symlinked to ~/.rclone-exclude.txt for rclone operations
+# ============================================================================
+
+# Code Source Files - already on GitHub, not needed in cloud
+*.cpp
+*.cc
+*.c
+*.h
+*.hpp
+*.py
+*.java
+*.rs
+*.go
+*.js
+*.ts
+*.jsx
+*.tsx
+*.swift
+*.kt
+*.scala
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Node/Web
+node_modules/
+.npm/
+.next/
+dist/
+build/
+
+# Java/Maven/Gradle
+target/
+.gradle/
+build/
+*.class
+
+# Rust
+target/
+Cargo.lock
+
+# C/C++ Build
+*.o
+*.a
+*.so
+*.dylib
+
+# Go
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Logs & Cache
+*.log
+.cache/
+.tmp/
