@@ -55,7 +55,7 @@ detect_os() {
     fi
 }
 
-check_ prerequisites() {
+check_prerequisites() {
     print_step "Checking prerequisites"
     
     local os="$1"
@@ -272,7 +272,7 @@ main() {
     echo "║  Detected OS: $os"
     echo "╚══════════════════════════════════════════════════════════════════╝"
     
-    check_ prerequisites "$os"
+    check_prerequisites "$os"
     install_core "$os"
     
     if [[ "$CORE_ONLY" != "true" ]]; then
