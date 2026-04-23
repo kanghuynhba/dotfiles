@@ -8,20 +8,10 @@
 " ---- ALE (Asynchronous Lint Engine) ----
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_disable_lsp = 1
-
-    " \ 'python': ['flake8'],
-    " \ 'javascript': ['eslint'],
-    " \ 'typescript': ['eslint'],
-    " \ 'json': ['jsonlint'],
 let g:ale_linters = {
     \ 'sh': ['shellcheck'],
     \ 'vim': ['vint'],
     \}
-
-    " \ 'python': ['black', 'isort'],
-    " \ 'javascript': ['prettier'],
-    " \ 'typescript': ['prettier'],
-    " \ 'json': ['jq'],
 let g:ale_fixers = {
     \ 'sh': ['shfmt'],
     \}
