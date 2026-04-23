@@ -14,7 +14,11 @@ augroup END
 
 augroup AutoMkdir
     autocmd!
-    autocmd BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
+    autocmd BufWritePre,FileWritePre *
+        \ let l:dir = expand('<afile>:p:h')
+        \ | if l:dir != '.' && !isdirectory(l:dir)
+        \ |     call mkdir(l:dir, 'p')
+        \ | endif
 augroup END
 
 " ============================================================================
