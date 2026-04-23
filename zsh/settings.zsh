@@ -27,6 +27,7 @@ KEYTIMEOUT=1 # corresponds to 10ms
 
 # Use vim as the editor
 export EDITOR=vim
+export JAVA_HOME=$(/usr/libexec/java_home -v 25)
 
 # Use vim style line editing in zsh
 bindkey -v
