@@ -8,7 +8,7 @@
 - link:
     ~/.agignore:
     ~/.aria2/aria2.conf:
-    ~/.config/nvim/coc-settings.json: nvim/coc-settings.json
+    ~/.config/nvim/coc-settings.json: vim/coc-settings.json
     ~/.myclirc:
     ~/.axelrc:
     ~/.bash:
