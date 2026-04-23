@@ -4,8 +4,7 @@
 
 set nocompatible              " Not vi compatible (must be first)
 filetype plugin indent on     " Enable file type detection and indentation
-syntax on                     " Syntax highlighting
-syntax enable
+syntax enable                    " Syntax highlighting (syntax on resets; enable preserves overrides)
 
 set encoding=utf-8
 set t_Co=256                  " Force 256 colors (if needed)
@@ -38,7 +37,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-set nofoldenable              " Disable folding by default
+set foldmethod=expr              " Enable folding (necessary for :Fold, zc/zo)
+set foldlevelstart=99           " Open all folds by default, allow manual folding
 
 " Cursor shape (iTerm2 / modern terminals)
 let &t_SI = "\e[6 q"          " Insert mode: vertical bar

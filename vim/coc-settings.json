@@ -121,5 +121,8 @@
 
   // ── Highlight (coc-highlight) ─────────────────────────────────────────────
   "highlight.document.enable": true,
-  "highlight.colors.enable": true // Show hex color preview inline
+  "highlight.colors.enable": true, // Show hex color preview inline
+
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "/opt/homebrew/bin/black"
 }

@@ -11,14 +11,19 @@ let g:ale_disable_lsp = 1
 let g:ale_linters = {
     \ 'sh': ['shellcheck'],
     \ 'vim': ['vint'],
-\}
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint'],
+    \ 'typescript': ['eslint'],
+    \ 'json': ['jsonlint'],
+    \}
 let g:ale_fixers = {
     \ 'sh': ['shfmt'],
-\}
+    \ 'python': ['black', 'isort'],
+    \ 'javascript': ['prettier'],
+    \ 'typescript': ['prettier'],
+    \ 'json': ['jq'],
+    \}
 let g:ale_fix_on_save = 1
-let g:ale_python_black_use_global = 1
-let g:ale_python_isort_use_global = 1
-let g:ale_python_pyflakes_use_global = 1
 
 " ---- FZF ----
 set rtp+=~/Config/dotfiles/zsh/plugins/fzf   " Adjust path if needed

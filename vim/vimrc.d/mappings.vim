@@ -5,10 +5,10 @@
 let mapleader = " "           " Space as leader
 
 " Disable arrow keys (bad habit prevention)
-nnoremap <Left>  :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up>    :echoe "Use k"<CR>
-nnoremap <Down>  :echoe "Use j"<CR>
+nnoremap <Left>  <Nop>
+nnoremap <Right> <Nop>
+nnoremap <Up>    <Nop>
+nnoremap <Down>  <Nop>
 
 " Unbind useless defaults
 map <C-a> <Nop>
