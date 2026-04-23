@@ -9,12 +9,11 @@
 let g:ale_virtualtext_cursor = 'current'
 let g:ale_disable_lsp = 1
 let g:ale_linters = {
-    \ 'python': ['pyflakes'],
     \ 'sh': ['shellcheck'],
+    \ 'vim': ['vint'],
 \}
 let g:ale_fixers = {
-    \ 'python': ['isort', 'black'],
-    \ 'rust': ['rustfmt'],
+    \ 'sh': ['shfmt'],
 \}
 let g:ale_fix_on_save = 1
 let g:ale_python_black_use_global = 1
@@ -60,7 +59,6 @@ let g:leetcode_browser='brave'
 
 " ---- rust.vim ----
 let g:rustfmt_autosave = 1
-let g:syntastic_rust_checkers = ['cargo']
 
 " ---- markdown ----
 let g:markdown_fenced_languages = [

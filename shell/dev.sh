@@ -27,12 +27,24 @@ alias editLoader="vim $SHELL_PATH/load_all.sh"
 # DOTFILE EDITING
 # ============================================================================
 
+# Main config
 alias vimConfig="vim $CONFIG_PATH/vimrc"
 alias bashConfig="vim $CONFIG_PATH/bashrc"
 alias zshConfig="vim $CONFIG_PATH/zshrc"
 alias tmuxConfig="vim $CONFIG_PATH/tmux.conf"
 alias gitConfig="vim $CONFIG_PATH/gitconfig"
 alias myclirc='vim ~/.myclirc'
+
+# Vim config (modular)
+VIMRC_D="$CONFIG_PATH/vim/vimrc.d"
+alias editVim="vim $CONFIG_PATH/vimrc"
+alias editVimBasic="vim $VIMRC_D/basic.vim"
+alias editVimCoc="vim $VIMRC_D/coc.vim"
+alias editVimLanguages="vim $VIMRC_D/languages.vim"
+alias editVimMappings="vim $VIMRC_D/mappings.vim"
+alias editVimMisc="vim $VIMRC_D/misc.vim"
+alias editVimPlugins="vim $VIMRC_D/plugins.vim"
+alias editVimTheme="vim $VIMRC_D/theme.vim"
 
 # ============================================================================
 # RELOAD
@@ -62,17 +74,46 @@ editGit       Git workflow functions
 editLoader    Master loader script
 
 Dotfiles
-=========
-vimConfig     Vim configuration
+========
+vimConfig     Main vimrc
+editVim      Main vimrc (same as vimConfig)
+editVimBasic   Basic settings
+editVimCoc     Coc.nvim config
+editVimLanguages Language settings
+editVimMappings  Key mappings
+editVimMisc     Miscellaneous
+editVimPlugins  Plugin config
+editVimTheme    Theme/colors
 bashConfig    Bash configuration
 zshConfig     Zsh configuration
 tmuxConfig    Tmux configuration
 gitConfig     Git configuration
 
 Other
-======
+=====
 reload        Reload shell configuration
 editHelp      Show this help
+vimHelp       Vim-specific commands help
+EOF
+}
+
+vimHelp() {
+    cat << 'EOF'
+Vim Commands
+===========
+editVim         Open main vimrc
+editVimBasic   Basic settings (encoding, tabs, line numbers...)
+editVimCoc     Coc.nvim LSP/completion config
+editVimLanguages Language-specific (go, python, rust...)
+editVimMappings  Key mappings (leader, buffer navigation...)
+editVimMisc     Misc settings (backup, undo, etc.)
+editVimPlugins  Plugin manager (packer, plugins...)
+editVimTheme    Colorscheme & UI
+
+Related
+=======
+editHelp       Show shell config editing help
+reload         Reload shell config
 EOF
 }
 
