@@ -28,6 +28,10 @@ function! SetDark()
     highlight StatusLineNC cterm=NONE ctermfg=240 ctermbg=236
     highlight SpellBad cterm=underline
     let g:lightline = {'colorscheme': 'wombat'}
+    if exists('*lightline#init')
+        call lightline#init()
+        call lightline#colorscheme()
+    endif
     call writefile(['dark'], s:bg_cache)
 endfunction
 
@@ -39,6 +43,10 @@ function! SetLight()
         colorscheme morning
     endtry
     let g:lightline = {'colorscheme': 'one'}
+    if exists('*lightline#init')
+        call lightline#init()
+        call lightline#colorscheme()
+    endif
     call writefile(['light'], s:bg_cache)
 endfunction
 
