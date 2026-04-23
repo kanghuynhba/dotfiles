@@ -13,6 +13,8 @@ augroup END
 " ============================================================================
 function! MkdirQuiet()
     let dir = expand('<afile>:p:h')
+    " Skip remote files (scp, sftp, ftp, fugitive)
+    if dir =~# '^\(scp\|sftp\|ftp\|fugitive\)://' | return | endif
     if dir != '.' && !isdirectory(dir)
         call mkdir(dir, 'p', 0700)
     endif
@@ -32,7 +34,9 @@ augroup END
 " ============================================================================
 "  Debian/System defaults (optional)
 " ============================================================================
-runtime! debian.vim
+if filereadable('/etc/debian_version')
+    runtime! debian.vim
+endif
 if filereadable("/etc/vim/vimrc.local")
     source /etc/vim/vimrc.local
 endif
