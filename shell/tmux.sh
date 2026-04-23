@@ -18,7 +18,7 @@ _tmux_switch() {
     fi
     if ! tmux has-session -t "$name" 2>/dev/null; then
         tmux new-session -d -s "$name" -c "$folder" -n "ai"
-        tmux new-window  -t "$name"    -c "$folder" -n "git"
+        tmux new-window  -t "$name"    -c "$folder" -n "doc"
         tmux new-window  -t "$name"    -c "$folder" -n "exec"
         tmux new-window  -t "$name"    -c "$folder" -n "test"
         tmux new-window  -t "$name"    -c "$folder" -n "code"
