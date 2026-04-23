@@ -11,14 +11,16 @@ augroup END
 " ============================================================================
 "  Auto-create parent directories on write
 " ============================================================================
+function! MkdirQuiet()
+    let dir = expand('<afile>:p:h')
+    if dir != '.' && !isdirectory(dir)
+        call mkdir(dir, 'p', 0700)
+    endif
+endfunction
 
 augroup AutoMkdir
     autocmd!
-    autocmd BufWritePre,FileWritePre *
-        \ let l:dir = expand('<afile>:p:h')
-        \ | if l:dir != '.' && !isdirectory(l:dir)
-        \ |     call mkdir(l:dir, 'p')
-        \ | endif
+    autocmd BufWritePre,FileWritePre * call MkdirQuiet()
 augroup END
 
 " ============================================================================
