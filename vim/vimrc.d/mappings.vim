@@ -37,8 +37,11 @@ function! CloseTabsToLeft()
 endfunction
 
 function! CloseTabsToRight()
-    while tabpagenr() < tabpagenr('$')
-        exec 'tabclose!'
+    let l:current = tabpagenr()
+    let l:last = tabpagenr('$')
+    while l:last > l:current
+        exec l:last . 'tabclose'
+        let l:last = l:last - 1
     endwhile
 endfunction
 
