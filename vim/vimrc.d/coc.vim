@@ -259,8 +259,11 @@ let s:lang_ext_map = {
     \ 'json':           'coc-json',
     \ 'yaml':           'coc-yaml',
     \ }
-
 function! s:CheckCocExtension() abort
+    " Do nothing if coc.nvim is not fully loaded yet
+    if !exists('*coc#util#get_extension') || !get(g:, 'coc_service_loaded', 0)
+        return
+    endif
     let ft = &filetype
     if has_key(s:lang_ext_map, ft)
         let ext = s:lang_ext_map[ft]
@@ -272,7 +275,13 @@ function! s:CheckCocExtension() abort
         endif
     endif
 endfunction
-autocmd FileType * call s:CheckCocExtension()
+" Only trigger after coc is ready, or defer the check
+augroup CocExtensionCheck
+    autocmd!
+    autocmd User CocNvimReady call s:CheckCocExtension()
+    " Also run on FileType but only after coc is ready (the function guards)
+    autocmd FileType * call s:CheckCocExtension()
+augroup END
 
 " ----------------------------------------------------------------------------
 "  CocList — diagnostics, symbols, references
