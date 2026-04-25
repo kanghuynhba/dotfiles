@@ -96,17 +96,16 @@ nnoremap <silent> <leader>gm :call CocActionAsync('diagnosticInfo')<CR>
 function! CopyDiagnostic()
     let l:diags = CocAction('diagnosticList')
     let l:cur_line = line('.') - 1
-    let l:cur_col = col('.') - 1
-    for l:diag in l:diags
-        if l:diag.lnum == l:cur_line && l:cur_col >= l:diag.col && l:cur_col <= l:diag.end_col
-            let l:msg = l:diag.message
-            let l:msg = substitute(l:msg, '\v\s*\[[^\]]+\]$', '', '')
-            call setreg('+', l:msg)
-            echo 'Diagnostic copied: ' . split(l:msg, '\n')[0]
-            return
-        endif
-    endfor
-    echo 'No diagnostic found at cursor position'
+    let l:line_diags = filter(copy(l:diags), 'v:val.lnum == l:cur_line')
+    if empty(l:line_diags)
+        echo "No diagnostic on this line."
+        return
+    endif
+    let l:msg = l:line_diags[0].message
+    let l:msg = substitute(l:msg, '\v\s*\[[^\]]+\]$', '', '')
+    call setreg('+', l:msg)
+    call setreg('"', l:msg)
+    echo "Copied: " . (len(l:msg) > 50 ? l:msg[:50] . "..." : l:msg)
 endfunction
 
 nnoremap <silent> <leader>yd :call CopyDiagnostic()<CR>
