@@ -92,6 +92,25 @@ nnoremap <silent> <leader>gd :call CocAction('diagnosticList')<CR>
 " Show diagnostic message at cursor in float (no keymap conflict)
 nnoremap <silent> <leader>gm :call CocActionAsync('diagnosticInfo')<CR>
 
+" Copy diagnostic message at cursor to clipboard
+function! CopyDiagnostic()
+    let l:diags = CocAction('diagnosticList')
+    let l:cur_line = line('.') - 1
+    let l:cur_col = col('.') - 1
+    for l:diag in l:diags
+        if l:diag.lnum == l:cur_line && l:cur_col >= l:diag.col && l:cur_col <= l:diag.end_col
+            let l:msg = l:diag.message
+            let l:msg = substitute(l:msg, '\v\s*\[[^\]]+\]$', '', '')
+            call setreg('+', l:msg)
+            echo 'Diagnostic copied: ' . split(l:msg, '\n')[0]
+            return
+        endif
+    endfor
+    echo 'No diagnostic found at cursor position'
+endfunction
+
+nnoremap <silent> <leader>yd :call CopyDiagnostic()<CR>
+
 " ----------------------------------------------------------------------------
 "  GoTo code navigation
 "  NOTE: gd/gy/gi/gr — safe, not in your mappings.vim
