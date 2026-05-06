@@ -1,6 +1,6 @@
 " ============================================================================
 "  coc.nvim — Multi-Language Enhanced Edition
-"  Adapted for: Rust · Python · C++ · Java · Go · TypeScript · Lua · Bash
+"  Adapted for: Rust · Python · C++ · Java · Go · TypeScript · Lua · Bash · PHP
 "  Compatible with your: ALE (linting-only), FZF, copilot.vim, rust.vim
 " ============================================================================
 
@@ -18,7 +18,7 @@ set nowritebackup
 " Run this once:
 "   :CocInstall coc-rust-analyzer coc-pyright coc-clangd coc-java
 "   \           coc-go coc-tsserver coc-lua coc-sh coc-json coc-yaml
-"   \           coc-toml coc-snippets coc-pairs coc-highlight
+"   \           coc-toml coc-snippets coc-pairs coc-highlight coc-phplang
 
 " ----------------------------------------------------------------------------
 "  Per-language LSP server activation guard
@@ -37,8 +37,8 @@ augroup LangIndent
     " 2-space: Go, JS/TS, JSON, YAML, Lua, Ruby, HTML
     autocmd FileType go,javascript,typescript,javascriptreact,typescriptreact,
                 \json,yaml,lua,ruby,html,css,scss setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    " 4-space: Python, Rust, C, C++, Java, Bash (already global default)
-    autocmd FileType python,rust,c,cpp,java,sh setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    " 4-space: Python, Rust, C, C++, Java, Bash, PHP (already global default)
+    autocmd FileType python,rust,c,cpp,java,sh,php setlocal tabstop=4 shiftwidth=4 softtabstop=4
     " Tabs (no expand): Go uses gofmt's tabs
     autocmd FileType go setlocal noexpandtab
 augroup END
@@ -257,6 +257,9 @@ augroup CocFormatOnSave
 
     " Java: coc-java has its own formatter — enable if desired
     " autocmd BufWritePre *.java :silent call CocAction('format')
+
+    " PHP: coc-phplang formatting
+    autocmd BufWritePre *.php :silent call CocAction('format')
 augroup END
 
 " ----------------------------------------------------------------------------
@@ -276,6 +279,7 @@ let s:lang_ext_map = {
     \ 'sh':             'coc-sh',
     \ 'json':           'coc-json',
     \ 'yaml':           'coc-yaml',
+    \ 'php':            'coc-phplang',
     \ }
 function! s:CheckCocExtension() abort
     " Do nothing if coc.nvim is not fully loaded yet
